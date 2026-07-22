@@ -32,7 +32,7 @@ table{ width:100%; border-collapse:collapse; }
 /* Comfortable, accessible tap targets on touch devices */
 @media (max-width:767px){
   button, a.btn, .btn, input[type="submit"], input[type="button"],
-  .icon-btn, .hamburger, .nav-signin, .nav-login{
+  .icon-btn, .hamburger, .nav-signin, .nav-login, .nav-login-btn{
     min-height:44px;
   }
   a, button, input, select, textarea{ -webkit-tap-highlight-color:rgba(37,99,235,.15); }
@@ -88,7 +88,23 @@ form input, form select, form textarea{
    Nav collapses to hamburger (existing behaviour retained).
    ============================================================ */
 @media (max-width:768px){
-  .nav-inner{ padding:0 20px; }
+  /* ---- Navbar consistency lock ----
+     Guarantees the same floating "pill" navbar (course-details style)
+     on every public page at mobile widths, no matter which page-level
+     CSS loads alongside this file. */
+  .navbar{
+    left:0; right:0;
+    padding:0 16px;
+  }
+  .nav-inner{
+    width:100%;
+    max-width:100%;
+    margin:0 auto;
+    padding:8px 10px 8px 18px;
+    border-radius:100px !important;
+    box-sizing:border-box;
+  }
+  .nav-actions{ gap:4px; }
   .nav-links{ display:none; }
   .hamburger{ display:flex; }
   section{ padding:64px 20px; }
@@ -108,7 +124,8 @@ form input, form select, form textarea{
    5. MOBILE — up to 480px
    ============================================================ */
 @media (max-width:480px){
-  .nav-inner{ padding:0 16px; }
+  .navbar{ padding:0 12px; }
+  .nav-inner{ padding:8px 8px 8px 16px; border-radius:100px !important; }
   section{ padding:48px 16px; }
   .brand-text{ font-size:17px; }
   .hero-actions, .cta-actions{ flex-direction:column; width:100%; }
@@ -125,7 +142,8 @@ form input, form select, form textarea{
    6. SMALL MOBILE — 320px baseline
    ============================================================ */
 @media (max-width:320px){
-  .nav-inner{ padding:0 12px; }
+  .navbar{ padding:0 8px; }
+  .nav-inner{ padding:6px 6px 6px 14px; border-radius:100px !important; }
   section{ padding:36px 12px; }
   h1{ font-size:26px; }
   h2{ font-size:22px; }
