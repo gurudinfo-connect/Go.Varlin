@@ -1,0 +1,95 @@
+/* ============================================================
+   GO.VARLIN — ANIMATIONS
+   ============================================================ */
+
+/* -------- Page Loader -------- */
+.loader{
+  position:fixed; inset:0; z-index:9999;
+  background:var(--dark);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px;
+  transition:opacity .6s var(--ease), visibility .6s var(--ease);
+}
+.loader.done{ opacity:0; visibility:hidden; }
+.loader-mark{ display:flex; align-items:center; gap:10px; font-family:var(--font-display); font-size:30px; font-weight:700; color:#fff; }
+.loader-bracket{ color:var(--secondary); }
+.loader-dot{ width:10px; height:10px; border-radius:50%; background:var(--accent); animation:pulseDot 1s ease-in-out infinite; }
+.loader-word{ font-family:var(--font-display); font-weight:700; font-size:20px; letter-spacing:.02em; color:#fff; }
+.loader-bar{ width:180px; height:3px; background:rgba(255,255,255,.12); border-radius:100px; overflow:hidden; }
+.loader-bar span{ display:block; height:100%; width:0%; background:var(--grad); animation:loaderFill 1.4s var(--ease) forwards; }
+
+/* -------- Cursor Glow -------- */
+.cursor-glow{
+  position:fixed; top:0; left:0; width:340px; height:340px; border-radius:50%; z-index:2;
+  background:radial-gradient(circle, rgba(37,99,235,.06), transparent 70%);
+  transform:translate(-50%,-50%); pointer-events:none;
+  transition:opacity .3s;
+  will-change:transform;
+}
+@media (hover:none){ .cursor-glow{ display:none; } }
+
+/* -------- Keyframes -------- */
+@keyframes pulseDot{ 0%,100%{ transform:scale(1); opacity:1;} 50%{ transform:scale(1.4); opacity:.6;} }
+@keyframes loaderFill{ from{ width:0%; } to{ width:100%; } }
+
+@keyframes blobFloat{
+  0%,100%{ transform:translate(0,0) scale(1); }
+  33%{ transform:translate(40px,-30px) scale(1.08); }
+  66%{ transform:translate(-30px,20px) scale(.95); }
+}
+@keyframes auroraDrift{
+  0%,100%{ transform:translate(0,0) scale(1) rotate(0deg); }
+  25%{ transform:translate(4%,-3%) scale(1.06) rotate(4deg); }
+  50%{ transform:translate(-3%,4%) scale(.96) rotate(-3deg); }
+  75%{ transform:translate(3%,3%) scale(1.03) rotate(2deg); }
+}
+@keyframes beamSweep{
+  0%,100%{ transform:translateX(-12%); opacity:.35; }
+  50%{ transform:translateX(12%); opacity:.7; }
+}
+@keyframes gridDrift{
+  from{ background-position:0 0; }
+  to{ background-position:64px 64px; }
+}
+@keyframes cardRise{
+  from{ opacity:0; transform:translateY(46px) rotateX(-10deg) scale(.94); }
+  to{ opacity:1; transform:translateY(0) rotateX(0deg) scale(1); }
+}
+@keyframes borderRotate{
+  from{ --border-angle:0deg; }
+  to{ --border-angle:360deg; }
+}
+@keyframes codeFloat{
+  0%,100%{ transform:translateY(0) rotate(0deg); }
+  50%{ transform:translateY(-24px) rotate(6deg); }
+}
+@keyframes pulseRing{
+  0%{ transform:scale(1); opacity:.9; }
+  100%{ transform:scale(2.6); opacity:0; }
+}
+@keyframes spin{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
+@keyframes blink{ 0%,50%{ opacity:1; } 51%,100%{ opacity:0; } }
+@keyframes floatCard{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-14px); }
+}
+@keyframes scrollLine{
+  0%{ top:-100%; }
+  100%{ top:100%; }
+}
+@keyframes marquee{
+  from{ transform:translateX(0); }
+  to{ transform:translateX(-50%); }
+}
+@keyframes gradientMove{
+  0%,100%{ background-position:0% 50%; }
+  50%{ background-position:100% 50%; }
+}
+
+/* -------- Reveal helper (fallback for non-AOS elements) -------- */
+.reveal{ opacity:0; transform:translateY(30px); transition:opacity .7s var(--ease), transform .7s var(--ease); }
+.reveal.in{ opacity:1; transform:translateY(0); }
+
+/* -------- Reduced motion -------- */
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important; }
+}

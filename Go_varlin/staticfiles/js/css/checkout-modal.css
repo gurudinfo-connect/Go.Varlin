@@ -1,0 +1,304 @@
+/* ============================================================
+   GO.VARLIN — ENROLLMENT CHECKOUT MODAL
+   Two-step flow: (1) Online / Offline mode  (2) Razorpay payment
+   Reuses the visual language of lead-modal.css.
+   ============================================================ */
+
+.checkout-modal-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(15, 23, 42, .55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s var(--ease), visibility .3s var(--ease);
+}
+.checkout-modal-overlay.active{
+  opacity: 1;
+  visibility: visible;
+}
+
+.checkout-modal{
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  background: var(--card);
+  border-radius: 26px;
+  padding: 40px 36px 36px;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(24px) scale(.97);
+  opacity: 0;
+  transition: transform .35s var(--ease), opacity .35s var(--ease);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.checkout-modal-overlay.active .checkout-modal{
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.checkout-modal-close{
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  color: var(--text-mute);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background .2s var(--ease), color .2s var(--ease);
+  z-index: 2;
+}
+.checkout-modal-close:hover{ background: #F1F5F9; color: var(--text); }
+.checkout-modal-close svg{
+  width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round;
+}
+
+.checkout-back{
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  color: var(--text-mute);
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background .2s var(--ease), color .2s var(--ease);
+}
+.checkout-back:hover{ background: #F1F5F9; color: var(--text); }
+.checkout-back svg{ width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; }
+.checkout-step-payment .checkout-back{ display: flex; }
+
+.checkout-modal-title{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--dark);
+  margin-bottom: 6px;
+  padding-right: 20px;
+  text-align: center;
+}
+.checkout-modal-sub{
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  color: var(--text-soft);
+  line-height: 1.5;
+  margin-bottom: 26px;
+  text-align: center;
+}
+
+/* ---------- Step indicator ---------- */
+.checkout-steps{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.checkout-steps span{
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--border);
+  transition: background .3s var(--ease), width .3s var(--ease);
+}
+.checkout-steps span.active{ background: var(--enroll-1); width: 22px; border-radius: 5px; }
+
+/* ---------- Mode selection cards ---------- */
+.mode-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+.mode-card{
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  padding: 22px 16px;
+  text-align: center;
+  cursor: pointer;
+  background: var(--bg);
+  transition: border-color .2s var(--ease), transform .2s var(--ease), box-shadow .2s var(--ease), background .2s var(--ease);
+}
+.mode-card:hover{
+  border-color: var(--enroll-1);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+.mode-card.selected{
+  border-color: var(--enroll-1);
+  background: rgba(124, 58, 237, .08);
+}
+.mode-card-icon{
+  width: 52px; height: 52px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  background: var(--enroll-grad);
+}
+.mode-card h4{
+  font-family: var(--font-heading);
+  font-size: 16px;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.mode-card p{
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  color: var(--text-soft);
+  line-height: 1.5;
+}
+
+/* ---------- Order summary ---------- */
+.order-summary{
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 22px;
+}
+.order-row{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text-soft);
+  padding: 6px 0;
+}
+.order-row strong{
+  font-family: var(--font-heading);
+  color: var(--text);
+  font-weight: 700;
+}
+.order-row.order-total{
+  border-top: 1.5px dashed var(--border);
+  margin-top: 6px;
+  padding-top: 12px;
+  font-size: 16px;
+}
+.order-total strong{ font-size: 20px; color: var(--enroll-1); }
+.order-mode-pill{
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(20, 184, 166, .12);
+  color: var(--accent);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 11.5px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.checkout-pay-btn{
+  width: 100%;
+  border: none;
+  background: var(--enroll-grad);
+  color: #fff;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .04em;
+  padding: 18px 20px;
+  border-radius: 14px;
+  cursor: pointer;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: transform .2s var(--ease), box-shadow .2s var(--ease);
+  box-shadow: 0 12px 24px rgba(124, 58, 237, .28);
+}
+.checkout-pay-btn:hover{ transform: translateY(-2px); }
+.checkout-pay-btn:active{ transform: translateY(0); }
+.checkout-pay-btn:disabled{ opacity: .7; cursor: not-allowed; transform: none; }
+.checkout-pay-btn img{ height: 16px; }
+.checkout-pay-btn .lead-spinner{
+  width: 15px; height: 15px;
+  border: 2px solid rgba(255,255,255,.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: lead-spin .7s linear infinite;
+  display: none;
+}
+.checkout-pay-btn.loading .lead-spinner{ display: inline-block; }
+
+.checkout-test-badge{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-mute);
+  margin-top: 14px;
+}
+.checkout-test-badge svg{ width: 14px; height: 14px; stroke: var(--text-mute); stroke-width: 2; fill: none; }
+
+.checkout-contact-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 6px;
+}
+.checkout-contact-grid .lead-field:nth-child(1){ grid-column: 1 / -1; }
+
+.checkout-success{
+  text-align: center;
+  padding: 12px 0 4px;
+}
+.checkout-success-icon{
+  width: 60px; height: 60px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: rgba(20, 184, 166, .12);
+  display: flex; align-items: center; justify-content: center;
+}
+.checkout-success-icon svg{
+  width: 28px; height: 28px; stroke: var(--accent); stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round;
+}
+.checkout-success h3{
+  font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--dark); margin-bottom: 8px;
+}
+.checkout-success p{
+  font-family: var(--font-body); font-size: 14.5px; color: var(--text-soft); line-height: 1.6;
+}
+.checkout-success .payment-id{
+  display: inline-block;
+  margin-top: 14px;
+  font-family: monospace;
+  font-size: 12.5px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: 10px;
+  color: var(--text-soft);
+}
+
+@media (max-width: 480px){
+  .checkout-modal{ padding: 32px 22px 26px; border-radius: 20px; }
+  .checkout-modal-title{ font-size: 20px; }
+  .mode-grid{ gap: 10px; }
+  .mode-card{ padding: 18px 10px; }
+  .checkout-contact-grid{ grid-template-columns: 1fr; }
+}

@@ -1,0 +1,68 @@
+/* ============================================================
+   GO.VARLIN LMS — DASHBOARD RESPONSIVE LAYER
+   Loaded last on every dashboard page. Fills in the 1440 / 1024 /
+   768 / 480 / 320 breakpoints, fixes overflow, keeps the fixed
+   sidebar off-canvas on small screens, and scales tables/cards —
+   without changing the existing design or functionality.
+   ============================================================ */
+
+html, body{ max-width:100%; overflow-x:hidden; }
+img, svg, video, iframe, canvas{ max-width:100%; height:auto; }
+
+/* Any raw table dropped into a panel becomes horizontally scrollable
+   instead of breaking layout on small screens. */
+.lms-panel table, .lms-card table{
+  display:block;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  white-space:nowrap;
+}
+
+/* Comfortable tap targets on touch devices */
+@media (max-width:767px){
+  .lms-nav-link, .lms-sidebar-toggle, .btn, button, a.btn{ min-height:44px; }
+}
+
+/* ---------- Laptop refine — up to 1440px ---------- */
+@media (max-width:1440px){
+  .lms-main{ padding:28px clamp(16px,3vw,36px) 64px; }
+}
+
+/* ---------- Small laptop / tablet landscape — up to 1024px ---------- */
+@media (max-width:1024px){
+  .lms-stat-grid, .lms-stat-grid.four{ grid-template-columns:repeat(2,1fr); }
+  .lms-two-col{ grid-template-columns:1fr; }
+  .profile-layout{ grid-template-columns:1fr; }
+  .player-wrap{ grid-template-columns:1fr; }
+}
+
+/* ---------- Tablet — up to 768px (sidebar off-canvas, already 980 in
+   sidebar.css/dashboard.css; this refines spacing at the exact 768
+   breakpoint requested) ---------- */
+@media (max-width:768px){
+  .lms-topnav{ padding:0 16px; gap:10px; }
+  .lms-search{ display:none; }
+  .lms-breadcrumb{ display:none; }
+  .lms-main{ padding:20px 16px 56px; }
+  .practice-row{ grid-template-columns:1fr 1fr; }
+  .practice-row.practice-head{ display:none; }
+}
+
+/* ---------- Mobile — up to 480px ---------- */
+@media (max-width:480px){
+  .lms-stat-grid, .lms-stat-grid.four{ grid-template-columns:1fr; }
+  .lms-main{ padding:16px 12px 48px; }
+  .lms-topnav{ height:auto; padding:10px 12px; flex-wrap:wrap; }
+  .practice-row{ grid-template-columns:1fr; }
+}
+
+/* ---------- Small mobile — 320px baseline ---------- */
+@media (max-width:320px){
+  .lms-brand-text{ font-size:14px; }
+  .lms-main{ padding:12px 10px 40px; }
+  .lms-nav-link{ font-size:12.5px; padding:10px 12px; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+}

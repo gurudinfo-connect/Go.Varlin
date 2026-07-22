@@ -1,0 +1,148 @@
+/* ============================================================
+   GO.VARLIN — GLOBAL RESPONSIVE LAYER
+   Loaded last on every public page. Adds the full breakpoint
+   ladder (1920 / 1440 / 1024 / 768 / 480 / 320), fixes overflow,
+   scales media/typography, and keeps touch targets accessible —
+   without altering existing design, branding or functionality.
+   ============================================================ */
+
+/* ---------- 0. Foundation / safety net (all sizes) ---------- */
+html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+html, body{ max-width:100%; overflow-x:hidden; }
+*, *::before, *::after{ box-sizing:border-box; min-width:0; }
+
+img, picture, svg, video, iframe, embed, object, canvas{
+  max-width:100%;
+  height:auto;
+}
+video, iframe{ display:block; }
+
+/* Any element that overflows unexpectedly should scroll, not push layout */
+.hero-visual, .laptop-mock, .orbit-ring, .float-card, .code-float{ max-width:100%; }
+
+/* Tables — scrollable on small screens instead of squeezing/breaking layout */
+table{ width:100%; border-collapse:collapse; }
+.table-responsive{
+  width:100%;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+.table-responsive table{ min-width:560px; }
+
+/* Comfortable, accessible tap targets on touch devices */
+@media (max-width:767px){
+  button, a.btn, .btn, input[type="submit"], input[type="button"],
+  .icon-btn, .hamburger, .nav-signin, .nav-login{
+    min-height:44px;
+  }
+  a, button, input, select, textarea{ -webkit-tap-highlight-color:rgba(37,99,235,.15); }
+}
+
+/* Forms always fit inside the viewport */
+input, select, textarea{ max-width:100%; }
+.auth-form input, .auth-form select, .auth-form textarea,
+.lead-form input, .lead-form select, .lead-form textarea,
+.checkout-form input, .checkout-form select, .checkout-form textarea,
+.contact-form input, .contact-form select, .contact-form textarea,
+form input, form select, form textarea{
+  width:100%;
+  box-sizing:border-box;
+}
+
+/* ============================================================
+   1. LARGE DESKTOP — 1920px and up
+   Keep the design centred and prevent it from over-stretching.
+   ============================================================ */
+@media (min-width:1920px){
+  :root{ --container:1440px; }
+  .nav-inner, .footer-top, .footer-bottom{ max-width:1440px; }
+  .hero-inner, .experience, .why-us-inner{ max-width:1440px; margin-inline:auto; }
+}
+
+/* ============================================================
+   2. LAPTOP — up to 1440px
+   ============================================================ */
+@media (max-width:1440px){
+  .nav-inner{ padding:0 32px; }
+  section{ padding-inline:32px; }
+}
+
+/* ============================================================
+   3. TABLET LANDSCAPE / SMALL LAPTOP — up to 1024px
+   ============================================================ */
+@media (max-width:1024px){
+  .course-grid{ grid-template-columns:repeat(2,1fr); }
+  .feature-grid{ grid-template-columns:repeat(3,1fr); }
+  .stat-grid{ grid-template-columns:repeat(3,1fr); }
+  .footer-top{ grid-template-columns:1fr 1fr; gap:32px; }
+  .timeline{ grid-template-columns:repeat(2,1fr); }
+  .why-grid{ grid-template-columns:repeat(2,1fr); }
+  .benefits-grid, .placement-grid{ grid-template-columns:1fr 1fr; }
+  .auth-shell{ grid-template-columns:1fr; }
+  .auth-aside{ display:none; }
+  .nav-dropdown-menu{ max-width:calc(100vw - 32px); }
+}
+
+/* ============================================================
+   4. TABLET — up to 768px
+   Nav collapses to hamburger (existing behaviour retained).
+   ============================================================ */
+@media (max-width:768px){
+  .nav-inner{ padding:0 20px; }
+  .nav-links{ display:none; }
+  .hamburger{ display:flex; }
+  section{ padding:64px 20px; }
+  .feature-grid{ grid-template-columns:repeat(2,1fr); }
+  .stat-grid{ grid-template-columns:repeat(2,1fr); }
+  .course-grid{ grid-template-columns:1fr; }
+  .footer-top{ grid-template-columns:1fr; gap:32px; text-align:left; }
+  .timeline{ grid-template-columns:1fr; }
+  .why-grid{ grid-template-columns:1fr; }
+  .benefits-grid, .placement-grid, .cert-inner{ grid-template-columns:1fr; }
+  h1{ font-size:clamp(28px,7vw,40px); }
+  h2{ font-size:clamp(24px,6vw,32px); }
+  .checkout-modal, .lead-modal{ padding:32px 24px 28px; }
+}
+
+/* ============================================================
+   5. MOBILE — up to 480px
+   ============================================================ */
+@media (max-width:480px){
+  .nav-inner{ padding:0 16px; }
+  section{ padding:48px 16px; }
+  .brand-text{ font-size:17px; }
+  .hero-actions, .cta-actions{ flex-direction:column; width:100%; }
+  .hero-actions .btn, .cta-actions .btn{ width:100%; text-align:center; justify-content:center; }
+  .feature-grid, .stat-grid, .timeline, .why-grid,
+  .benefits-grid, .placement-grid{ grid-template-columns:1fr; }
+  .mobile-menu{ width:min(300px,88vw); }
+  .checkout-modal, .lead-modal{ padding:28px 18px 22px; border-radius:20px; }
+  .checkout-modal-overlay, .lead-modal-overlay{ padding:14px; }
+  table.force-scroll, .table-responsive table{ font-size:13px; }
+}
+
+/* ============================================================
+   6. SMALL MOBILE — 320px baseline
+   ============================================================ */
+@media (max-width:320px){
+  .nav-inner{ padding:0 12px; }
+  section{ padding:36px 12px; }
+  h1{ font-size:26px; }
+  h2{ font-size:22px; }
+  p{ font-size:14px; }
+  .brand-text{ font-size:15px; }
+  .btn{ padding:12px 18px; font-size:13px; }
+  .hero-badge{ font-size:11px; padding:6px 12px; }
+  .float-card, .code-float, .orbit-ring{ display:none; }
+  .checkout-modal, .lead-modal{ padding:22px 14px 18px; }
+}
+
+/* ---------- Reduced motion respects user preference at all sizes ---------- */
+@media (prefers-reduced-motion:reduce){
+  *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+}
+
+/* ---------- Landscape phones: avoid overly tall hero sections ---------- */
+@media (max-height:480px) and (orientation:landscape){
+  .hero{ min-height:auto; padding-top:calc(var(--nav-h) + 24px); }
+}

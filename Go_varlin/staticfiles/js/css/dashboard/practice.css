@@ -1,0 +1,7 @@
+/* ============================================================
+   GO.VARLIN — PRACTICE
+   ============================================================ */
+
+.daily-challenge h4{ margin:4px 0 2px; font-size:16px; }
+.practice-row .prob-title{ cursor:pointer; }
+.practice-row:hover{ border-color:var(--accent); }
