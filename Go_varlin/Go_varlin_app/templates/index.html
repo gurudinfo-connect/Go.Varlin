@@ -1,0 +1,834 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Go.Varlin — Learn Future Technologies With Industry Experts</title>
+<meta name="description" content="Go.Varlin is a premium EdTech platform offering Full Stack, AI, Data Science and Analytics programs with mentorship, live projects and guaranteed placement support.">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- AOS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+<!-- Swiper -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css">
+
+<!-- Styles -->
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/animations.css' %}">
+<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+<link rel="stylesheet" href="{% static 'css/video-modal.css' %}">
+<link rel="stylesheet" href="{% static 'css/global-responsive.css' %}">
+</head>
+<body>
+
+<!-- ============ PAGE LOADER ============ -->
+<div class="loader" id="loader">
+  <div class="loader-mark">
+    <span class="loader-bracket">&lt;</span>
+    <span class="loader-dot"></span>
+    <span class="loader-bracket">/&gt;</span>
+  </div>
+  <div class="loader-word">Go.Varlin</div>
+  <div class="loader-bar"><span></span></div>
+</div>
+
+<!-- ============ CURSOR GLOW ============ -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- ============ NAVBAR ============ -->
+<header class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="{% url 'index' %}" class="brand">
+      <span class="brand-text">G<span class="brand-orb"><span class="brand-orb-core"></span></span><span class="brand-dot">.</span>Varlin</span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <span class="nav-indicator" id="navIndicator"></span>
+      <a href="{% url 'index' %}" class="active">Home</a>
+      <div class="nav-dropdown">
+        <button class="nav-drop-toggle" id="coursesDropToggle">Courses <svg viewBox="0 0 24 24" width="14" height="14"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="nav-dropdown-menu">
+          <a href="{% url 'course_details' %}?course=full-stack-java">Full Stack Java</a>
+          <a href="{% url 'course_details' %}?course=full-stack-python">Full Stack Python</a>
+          <a href="{% url 'course_details' %}?course=generative-ai">Generative AI</a>
+          <a href="{% url 'course_details' %}?course=ai-analyst">AI Analyst</a>
+          <a href="{% url 'course_details' %}?course=data-analyst">Data Analyst</a>
+          <a href="{% url 'course_details' %}?course=data-science">Data Science</a>
+        </div>
+      </div>
+      <a href="{% url 'hire_connect' %}">Hire Connect</a>
+      <a href="{% url 'contact' %}">Contact</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="icon-btn theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+      </button>
+      <div class="nav-auth-slot">
+        {% if user.is_authenticated %}
+        <a href="{% url 'dashboard:home' %}" class="nav-account">
+          <span class="nav-avatar">{{ user.username|slice:":1"|upper }}</span>
+          <span>Dashboard</span>
+        </a>
+        {% else %}
+        <a href="{% url 'signin' %}" class="nav-signin">Sign In</a>
+        <a href="{% url 'signup' %}" class="nav-login"><span>Create Account</span></a>
+        {% endif %}
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="{% url 'index' %}" class="active">Home</a>
+  <div class="mobile-courses">
+    <button class="mobile-courses-toggle" id="mobileCoursesToggle">Courses <svg viewBox="0 0 24 24" width="14" height="14"><path d="M6 9l6 6 6-6"/></svg></button>
+    <div class="mobile-courses-menu">
+      <a href="{% url 'course_details' %}?course=full-stack-java">Full Stack Java</a>
+      <a href="{% url 'course_details' %}?course=full-stack-python">Full Stack Python</a>
+      <a href="{% url 'course_details' %}?course=generative-ai">Generative AI</a>
+      <a href="{% url 'course_details' %}?course=ai-analyst">AI Analyst</a>
+      <a href="{% url 'course_details' %}?course=data-analyst">Data Analyst</a>
+      <a href="{% url 'course_details' %}?course=data-science">Data Science</a>
+    </div>
+  </div>
+  <a href="{% url 'hire_connect' %}">Hire Connect</a>
+      <a href="{% url 'contact' %}">Contact</a>
+  <div class="mobile-menu-actions">
+    {% if user.is_authenticated %}
+    <a href="{% url 'dashboard:home' %}" class="btn btn-primary"><span>My Dashboard</span></a>
+    <a href="{% url 'logout' %}" class="btn btn-ghost">Logout</a>
+    {% else %}
+    <a href="{% url 'signin' %}" class="btn btn-ghost">Sign In</a>
+    <a href="{% url 'signup' %}" class="btn btn-primary"><span>Create Account</span></a>
+    {% endif %}
+  </div>
+</div>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <div class="hero-bg">
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
+    <div class="aurora aurora-3"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <canvas id="particles"></canvas>
+    <div class="grid-overlay"></div>
+    <div class="hero-beam"></div>
+    <div class="code-float cf-1">const</div>
+    <div class="code-float cf-2">&lt;/&gt;</div>
+    <div class="code-float cf-3">{ }</div>
+    <div class="code-float cf-4">01</div>
+    <div class="code-float cf-5">AI</div>
+  </div>
+
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span> An intensive, industry-mapped roadmap for the 2026 Cohort
+      </div>
+
+      <h1 class="hero-title">
+        Learn Future Technologies
+        <span class="hero-title-gradient"><span id="heroTyped">With Industry Experts</span><span class="hero-cursor" aria-hidden="true"></span></span>
+      </h1>
+
+      <p class="hero-sub">
+        Empowering students with practical learning, real projects, career mentorship,
+        and guaranteed placement support — bridging the gap between academic theory
+        and production-grade engineering.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#programs" class="btn btn-outline btn-lg">
+          <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="10"/><path d="M10 8.5l6 3.5-6 3.5z"/></svg>
+          Explore Courses
+        </a>
+        <a href="{% url 'contact' %}" class="btn btn-outline btn-lg">
+          <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="10"/><path d="M10 8.5l6 3.5-6 3.5z"/></svg>
+          Book Free Demo
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="hstat"><span class="hstat-num" data-count="10000">0</span><span class="hstat-suffix">+</span><p>Students</p></div>
+        <div class="hstat"><span class="hstat-num" data-count="95">0</span><span class="hstat-suffix">%</span><p>Placement Rate</p></div>
+        <div class="hstat"><span class="hstat-num" data-count="100">0</span><span class="hstat-suffix">+</span><p>Hiring Partners</p></div>
+        <div class="hstat"><span class="hstat-num" data-count="250">0</span><span class="hstat-suffix">+</span><p>Live Projects</p></div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+
+      <div class="laptop-mock">
+        <div class="laptop-screen">
+          <div class="editor-top"><span></span><span></span><span></span><p>learning-path.js</p></div>
+          <div class="editor-body">
+            <p><span class="tok-kw">const</span> <span class="tok-var">career</span> = <span class="tok-kw">await</span> <span class="tok-fn">goVarlin</span>.<span class="tok-fn">launch</span>({</p>
+            <p>&nbsp;&nbsp;track: <span class="tok-str">"Full Stack + AI"</span>,</p>
+            <p>&nbsp;&nbsp;mentors: <span class="tok-num">120</span>,</p>
+            <p>&nbsp;&nbsp;projects: <span class="tok-num">250</span>,</p>
+            <p>&nbsp;&nbsp;placement: <span class="tok-bool">true</span></p>
+            <p>});</p>
+            <p class="typing-cursor">&nbsp;</p>
+          </div>
+        </div>
+        <div class="laptop-base"></div>
+      </div>
+      <div class="float-card fc-1">
+        <div class="fc-icon fc-icon-1">✓</div>
+        <div><strong>Certificate Issued</strong><p>Full Stack Java</p></div>
+      </div>
+      <div class="float-card fc-2">
+        <div class="fc-icon fc-icon-2">🎯</div>
+        <div><strong>Interview Cleared</strong><p>TCS · Offer Letter</p></div>
+      </div>
+      <div class="orbit-ring"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUSTED COMPANIES ============ -->
+<section class="companies">
+  <p class="companies-label" data-aos="fade-up">Our learners are placed at</p>
+  <div class="marquee">
+    <div class="marquee-track" id="marqueeTrack">
+      <a class="logo-chip" href="#placements" aria-label="Google">
+        <svg viewBox="0 0 48 48" width="24" height="24"><path fill="#EA4335" d="M24 9.5c3.4 0 6.4 1.2 8.8 3.4l6.5-6.5C35 2.5 29.9 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.6 5.9C12.3 13.3 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.4 5.7c4.3-4 6.8-9.9 6.8-17.4z"/><path fill="#FBBC05" d="M10.2 19.1a14.4 14.4 0 0 0 0 9.8l-7.6 5.9a24 24 0 0 1 0-21.6l7.6 5.9z"/><path fill="#34A853" d="M24 48c6 0 11-2 14.7-5.3l-7.4-5.7c-2 1.4-4.6 2.2-7.3 2.2-6.3 0-11.7-3.8-13.8-9.3l-7.6 5.9C6.5 42.6 14.6 48 24 48z"/></svg>
+        <span>Google</span>
+      </a>
+      <a class="logo-chip" href="#placements" aria-label="Microsoft">
+        <svg viewBox="0 0 48 48" width="22" height="22"><rect x="2" y="2" width="20" height="20" fill="#F35325"/><rect x="26" y="2" width="20" height="20" fill="#81BC06"/><rect x="2" y="26" width="20" height="20" fill="#05A6F0"/><rect x="26" y="26" width="20" height="20" fill="#FFBA08"/></svg>
+        <span>Microsoft</span>
+      </a>
+      <a class="logo-chip" href="#placements" aria-label="Amazon">
+        <svg viewBox="0 0 48 48" width="26" height="26"><path fill="#FF9900" d="M8 34c8 6 24 8 34 1-9 9-28 10-34-1z"/><path fill="currentColor" d="M12 15v2.2c1.7-.9 3.8-1.4 6-1.4 4 0 6.4 2 6.4 5.6v9.4c0 .6.1 1 .5 1.4h-4.2c-.3-.4-.4-.9-.5-1.4-1.4 1.2-3.2 1.8-5.3 1.8-3.6 0-6-2.2-6-5.4 0-3.6 3-5.6 8.3-5.9l2.6-.2v-.6c0-1.8-1.1-2.6-3-2.6-1.9 0-3.6.7-5 1.9L12 15zm10.9 8.9-1.8.2c-2.6.3-3.8 1.1-3.8 2.7 0 1.3 1 2.1 2.5 2.1 1.5 0 2.7-.7 3.5-1.7-.3-.6-.4-1.4-.4-2.4v-.9zM31 15h4l.1 1.7c1-1.3 2.5-2 4.3-2 3.7 0 6 2.7 6 7.2v.6c0 4.7-2.5 7.5-6.4 7.5-1.6 0-3-.6-3.9-1.6V32h-4.1V15zm4 6.9v1.6c0 2.6 1.2 4.1 3.2 4.1 2.1 0 3.3-1.7 3.3-4.6v-.5c0-2.9-1.2-4.5-3.2-4.5-2 0-3.3 1.5-3.3 3.9z"/></svg>
+        <span>Amazon</span>
+      </a>
+      <a class="logo-chip" href="#placements" aria-label="Infosys">
+        <svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="11" fill="#007CC3"/><path fill="#fff" d="M7 8h2v8H7V8Zm4-1h2v9h-2V7Zm4 3h2v6h-2v-6Z"/></svg>
+        <span>Infosys</span>
+      </a>
+      <a class="logo-chip" href="#placements" aria-label="TCS">
+        <svg viewBox="0 0 24 24" width="22" height="22"><rect width="24" height="24" rx="5" fill="#0F1B4C"/><path fill="#E31937" d="M6 8h12v2.2H13v7.6h-2v-7.6H6z"/></svg>
+        <span>TCS</span>
+      </a>
+      <a class="logo-chip" href="#placements" aria-label="Capgemini">
+        <svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="11" fill="#0070AD"/><path fill="#fff" d="M16.5 8.2A5.6 5.6 0 0 0 12 6.2a5.8 5.8 0 0 0 0 11.6 5.6 5.6 0 0 0 4.5-2.1l-1.7-1.2A3.4 3.4 0 0 1 12 15.6a3.6 3.6 0 0 1 0-7.2 3.4 3.4 0 0 1 2.8 1.4z"/></svg>
+        <span>Capgemini</span>
+      </a>
+      <a class="logo-chip" href="#placements" aria-label="Cognizant">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="#1A4CA1" d="M2 12a10 10 0 1 1 17.3 6.9l-3-2A6.6 6.6 0 1 0 8 6.6l-2-3A9.9 9.9 0 0 1 12 2 10 10 0 0 1 2 12Z"/></svg>
+        <span>Cognizant</span>
+      </a>
+      <a class="logo-chip" href="#placements" aria-label="Accenture">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="#A100FF" d="M2 18 12 6l3 4H8l-4 8H2Zm10 0 3-4h7l3 4h-4l-1.5-2H15L13.5 18Z"/></svg>
+        <span>Accenture</span>
+      </a>
+      <a class="logo-chip" href="#placements" aria-label="IBM">
+        <svg viewBox="0 0 24 24" width="24" height="12"><g fill="#052FAD"><rect y="0" width="24" height="2"/><rect y="3" width="24" height="2"/><rect y="6" width="10" height="2"/><rect x="14" y="6" width="10" height="2"/><rect y="9" width="24" height="2"/><rect y="12" width="24" height="2"/><rect y="15" width="9" height="2"/><rect x="15" y="15" width="9" height="2"/><rect y="18" width="24" height="2"/><rect y="21" width="24" height="2"/></g></svg>
+        <span>IBM</span>
+      </a>
+      <a class="logo-chip" href="#placements" aria-label="Wipro">
+        <img src="https://cdn.simpleicons.org/wipro/341C53" alt="" width="24" height="24" loading="lazy" onerror="this.outerHTML='&lt;span class=&quot;logo-letter&quot; style=&quot;background:#341C53&quot;&gt;W&lt;/span&gt;'">
+        <span>Wipro</span>
+      </a>
+      <a class="logo-chip" href="#placements" aria-label="Deloitte">
+        <img src="https://cdn.simpleicons.org/deloitte/86BC25" alt="" width="24" height="24" loading="lazy" onerror="this.outerHTML='&lt;span class=&quot;logo-letter&quot; style=&quot;background:#0F0F0F&quot;&gt;D&lt;/span&gt;'">
+        <span>Deloitte</span>
+      </a>
+      <a class="logo-chip" href="#placements" aria-label="Oracle">
+        <img src="https://cdn.simpleicons.org/oracle/F80000" alt="" width="24" height="24" loading="lazy" onerror="this.outerHTML='&lt;span class=&quot;logo-letter&quot; style=&quot;background:#F80000&quot;&gt;O&lt;/span&gt;'">
+        <span>Oracle</span>
+      </a>
+      <a class="logo-chip" href="#placements" aria-label="Tech Mahindra">
+        <img src="https://cdn.simpleicons.org/techmahindra/E4002B" alt="" width="24" height="24" loading="lazy" onerror="this.outerHTML='&lt;span class=&quot;logo-letter&quot; style=&quot;background:#E4002B&quot;&gt;TM&lt;/span&gt;'">
+        <span>Tech Mahindra</span>
+      </a>
+      <a class="logo-chip" href="#placements" aria-label="HCL">
+        <img src="https://cdn.simpleicons.org/hcl/0075C9" alt="" width="24" height="24" loading="lazy" onerror="this.outerHTML='&lt;span class=&quot;logo-letter&quot; style=&quot;background:#0075C9&quot;&gt;HCL&lt;/span&gt;'">
+        <span>HCL</span>
+      </a>
+      <a class="logo-chip" href="#placements" aria-label="Persistent">
+        <img src="https://cdn.simpleicons.org/persistent/8DC63F" alt="" width="24" height="24" loading="lazy" onerror="this.outerHTML='&lt;span class=&quot;logo-letter&quot; style=&quot;background:#0F5C3F&quot;&gt;P&lt;/span&gt;'">
+        <span>Persistent</span>
+      </a>
+      <a class="logo-chip" href="#placements" aria-label="KPMG">
+        <img src="https://cdn.simpleicons.org/kpmg/00338D" alt="" width="24" height="24" loading="lazy" onerror="this.outerHTML='&lt;span class=&quot;logo-letter&quot; style=&quot;background:#00338D&quot;&gt;K&lt;/span&gt;'">
+        <span>KPMG</span>
+      </a>
+      <a class="logo-chip" href="#placements" aria-label="Zeta">
+        <span class="logo-letter" style="background:#1B1B3A">Z</span>
+        <span>Zeta</span>
+      </a>
+      <a class="logo-chip" href="#placements" aria-label="Empuraan">
+        <span class="logo-letter" style="background:#64748B">E</span>
+        <span>Empuraan</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY GO.VARLIN ============ -->
+<section class="why-us" id="why-us">
+  <div class="why-us-inner">
+    <div class="why-us-copy" data-aos="fade-right">
+      <span class="eyebrow">Why Go.Varlin</span>
+      <h2>We built the school <span class="text-gradient">we wish we had</span></h2>
+      <p class="why-us-lead">Most platforms sell you videos and wish you luck. We stay in the room until you have an offer letter — that's the entire difference.</p>
+
+      <div class="why-us-stats">
+        <div><b>10,000+</b><span>Careers changed</span></div>
+        <div><b>95%</b><span>Placement rate</span></div>
+        <div><b>500+</b><span>Hiring partners</span></div>
+      </div>
+
+      <a href="#programs" class="btn btn-primary btn-anim"><span>See Our Programs</span></a>
+    </div>
+
+    <div class="why-us-compare" data-aos="fade-left">
+      <div class="compare-card compare-them">
+        <span class="compare-tag">Typical Bootcamps</span>
+        <ul>
+          <li><span class="x-mark">✕</span>Pre-recorded videos, no live doubt-solving</li>
+          <li><span class="x-mark">✕</span>Generic projects everyone submits</li>
+          <li><span class="x-mark">✕</span>Placement help stops after 1-2 tries</li>
+          <li><span class="x-mark">✕</span>One-size-fits-all curriculum</li>
+        </ul>
+      </div>
+      <div class="compare-card compare-us">
+        <span class="compare-tag compare-tag-us">Go.Varlin</span>
+        <ul>
+          <li><span class="check-mark">✓</span>Live mentor-led classes, every week</li>
+          <li><span class="check-mark">✓</span>Real, deployable, portfolio-ready projects</li>
+          <li><span class="check-mark">✓</span>Placement cell works until you're hired</li>
+          <li><span class="check-mark">✓</span>Track chosen around your career goal</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROGRAMS / COURSES ============ -->
+<section class="programs" id="programs">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">Programs</span>
+    <h2>Career-defining programs, <span class="text-gradient">built with industry</span></h2>
+    <p>Six tracks. Every one built around live projects, real mentors, and a straight line to placement.</p>
+  </div>
+
+  <div class="course-grid">
+
+    <article class="course-card" data-reveal="tilt-in" data-reveal-index="0">
+      <div class="course-glow"></div>
+      <div class="course-top">
+        <div class="course-icon ci-1"><svg viewBox="0 0 24 24"><path d="M9 3h6M12 3v4M5 9h14l-1.5 10a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2L5 9Z"/></svg></div>
+        <span class="course-tag">Most Popular</span>
+      </div>
+      <h3>Full Stack Java</h3>
+      <p class="course-desc">Java, Spring Boot, Hibernate and React — build production-grade apps end to end.</p>
+      <div class="course-stack">
+        <span>Java</span><span>Spring Boot</span><span>Hibernate</span><span>MySQL</span><span>React</span><span>Git</span>
+      </div>
+       <div class="course-meta">
+        <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>6 Months</div>
+        <div><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>10 Projects</div>
+        <div><svg viewBox="0 0 24 24"><path d="M12 2l9 4.5v9L12 20l-9-4.5v-9L12 2Z"/></svg>Certified</div>
+      </div>
+      <div class="course-card-actions">
+        <button type="button" class="btn btn-demo" data-video-demo="{% static 'videos/Java Introduction.mp4' %}" data-video-title="Full Stack Java — Course Preview">
+          <svg viewBox="0 0 24 24" width="15" height="15"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5-6-3.5Z" fill="currentColor" stroke="none"/></svg>
+          Watch Demo
+        </button>
+        <a href="{% url 'course_details' %}?course=full-stack-java" class="btn btn-card">View Curriculum <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </article>
+
+    <article class="course-card" data-reveal="tilt-in" data-reveal-index="1">
+      <div class="course-glow"></div>
+      <div class="course-top">
+        <div class="course-icon ci-2"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 3 4 3 6.5S6.5 11 12 11s9-2 9-4.5S17.5 2 12 2Z"/><path d="M3 6.5V17.5C3 20 6.5 22 12 22s9-2 9-4.5V6.5"/><path d="M3 12c0 2.5 3.5 4.5 9 4.5s9-2 9-4.5"/></svg></div>
+        <span class="course-tag">Beginner Friendly</span>
+      </div>
+      <h3>Full Stack Python</h3>
+      <p class="course-desc">Django, Flask and REST APIs paired with a modern React front end.</p>
+      <div class="course-stack">
+        <span>Python</span><span>Django</span><span>Flask</span><span>MongoDB</span><span>React</span>
+      </div>
+      <div class="course-meta">
+        <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>6 Months</div>
+        <div><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>10 Projects</div>
+        <div><svg viewBox="0 0 24 24"><path d="M12 2l9 4.5v9L12 20l-9-4.5v-9L12 2Z"/></svg>Certified</div>
+      </div>
+      <div class="course-card-actions">
+        <button type="button" class="btn btn-demo" data-video-demo="{% static 'videos/full-stack-python-demo.mp4' %}" data-video-title="Full Stack Python — Course Preview">
+          <svg viewBox="0 0 24 24" width="15" height="15"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5-6-3.5Z" fill="currentColor" stroke="none"/></svg>
+          Watch Demo
+        </button>
+        <a href="{% url 'course_details' %}?course=full-stack-python" class="btn btn-card">View Curriculum <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </article>
+
+    <article class="course-card" data-reveal="tilt-in" data-reveal-index="2">
+      <div class="course-glow"></div>
+      <div class="course-top">
+        <div class="course-icon ci-3"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg></div>
+        <span class="course-tag course-tag-hot">Trending</span>
+      </div>
+      <h3>Generative AI</h3>
+      <p class="course-desc">Prompt engineering, LLMs, RAG and multi-agent systems with LangGraph &amp; MCP.</p>
+      <div class="course-stack">
+        <span>LangChain</span><span>LangGraph</span><span>OpenAI</span><span>RAG</span><span>AI Agents</span>
+      </div>
+       <div class="course-meta">
+        <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>6 Months</div>
+        <div><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>10 Projects</div>
+        <div><svg viewBox="0 0 24 24"><path d="M12 2l9 4.5v9L12 20l-9-4.5v-9L12 2Z"/></svg>Certified</div>
+      </div>
+      <div class="course-card-actions">
+        <button type="button" class="btn btn-demo" data-video-demo="{% static 'videos/Introduction to Generative AI.mp4' %}" data-video-title="Generative AI — Course Preview">
+          <svg viewBox="0 0 24 24" width="15" height="15"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5-6-3.5Z" fill="currentColor" stroke="none"/></svg>
+          Watch Demo
+        </button>
+        <a href="{% url 'course_details' %}?course=generative-ai" class="btn btn-card">View Curriculum <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </article>
+
+    <article class="course-card" data-reveal="tilt-in" data-reveal-index="3">
+      <div class="course-glow"></div>
+      <div class="course-top">
+        <div class="course-icon ci-4"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 19v-6M12 19V9M16 19v-9M20 19v-4"/></svg></div>
+        <span class="course-tag">Job Ready</span>
+      </div>
+      <h3>AI Analyst</h3>
+      <p class="course-desc">Statistics, machine learning and dashboards for data-driven business decisions.</p>
+      <div class="course-stack">
+        <span>Python</span><span>Power BI</span><span>SQL</span><span>Machine Learning</span>
+      </div>
+       <div class="course-meta">
+        <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>6 Months</div>
+        <div><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>10 Projects</div>
+        <div><svg viewBox="0 0 24 24"><path d="M12 2l9 4.5v9L12 20l-9-4.5v-9L12 2Z"/></svg>Certified</div>
+      </div>
+      <div class="course-card-actions">
+        <button type="button" class="btn btn-demo" data-video-demo="{% static 'videos/AI Analyst Introduction.mp4' %}" data-video-title="AI Analyst — Course Preview">
+          <svg viewBox="0 0 24 24" width="15" height="15"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5-6-3.5Z" fill="currentColor" stroke="none"/></svg>
+          Watch Demo
+        </button>
+        <a href="{% url 'course_details' %}?course=ai-analyst" class="btn btn-card">View Curriculum <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </article>
+
+    <article class="course-card" data-reveal="tilt-in" data-reveal-index="4">
+      <div class="course-glow"></div>
+      <div class="course-top">
+        <div class="course-icon ci-5"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></div>
+        <span class="course-tag">High Demand</span>
+      </div>
+      <h3>Data Analyst</h3>
+      <p class="course-desc">Excel, SQL, Tableau and Power BI through real business case studies.</p>
+      <div class="course-stack">
+        <span>SQL</span><span>Excel</span><span>Power BI</span><span>Tableau</span><span>Pandas</span>
+      </div>
+       <div class="course-meta">
+        <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>6 Months</div>
+        <div><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>10 Projects</div>
+        <div><svg viewBox="0 0 24 24"><path d="M12 2l9 4.5v9L12 20l-9-4.5v-9L12 2Z"/></svg>Certified</div>
+      </div>
+      <div class="course-card-actions">
+        <button type="button" class="btn btn-demo" data-video-demo="{% static 'videos/Data Analyst Introduction.mp4' %}" data-video-title="Data Analyst — Course Preview">
+          <svg viewBox="0 0 24 24" width="15" height="15"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5-6-3.5Z" fill="currentColor" stroke="none"/></svg>
+          Watch Demo
+        </button>
+        <a href="{% url 'course_details' %}?course=data-analyst" class="btn btn-card">View Curriculum <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </article>
+
+    <article class="course-card" data-reveal="tilt-in" data-reveal-index="5">
+      <div class="course-glow"></div>
+      <div class="course-top">
+        <div class="course-icon ci-6"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/><path d="M7 9l3 3-3 3M13 15h4"/></svg></div>
+        <span class="course-tag">Advanced</span>
+      </div>
+      <h3>Data Science</h3>
+      <p class="course-desc">Deep learning, NLP and computer vision, deployed as real applications.</p>
+      <div class="course-stack">
+        <span>Deep Learning</span><span>NLP</span><span>TensorFlow</span><span>Scikit Learn</span>
+      </div>
+      <div class="course-meta">
+        <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>6 Months</div>
+        <div><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>10 Projects</div>
+        <div><svg viewBox="0 0 24 24"><path d="M12 2l9 4.5v9L12 20l-9-4.5v-9L12 2Z"/></svg>Certified</div>
+      </div>
+      <div class="course-card-actions">
+        <button type="button" class="btn btn-demo" data-video-demo="{% static 'videos/Data Science Introduction.mp4' %}" data-video-title="Data Science — Course Preview">
+          <svg viewBox="0 0 24 24" width="15" height="15"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5-6-3.5Z" fill="currentColor" stroke="none"/></svg>
+          Watch Demo
+        </button>
+        <a href="{% url 'course_details' %}?course=data-science" class="btn btn-card">View Curriculum <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============ WHY CHOOSE US ============ -->
+<section class="why" id="features">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">The Full System</span>
+    <h2>Everything a career change <span class="text-gradient">actually needs</span></h2>
+    <p>Not just video lectures. A complete system to get you from learner to hired.</p>
+  </div>
+
+  <div class="feature-grid">
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="0"><div class="feature-icon">👨‍🏫</div><h4>Industry Mentors</h4><p>Learn from engineers currently working at top product and service companies.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="60"><div class="feature-icon">🧪</div><h4>Live Projects</h4><p>Ship real, portfolio-worthy projects — not disposable toy assignments.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="120"><div class="feature-icon">🎤</div><h4>Mock Interviews</h4><p>Practice with structured mock interviews until the real one feels easy.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="180"><div class="feature-icon">📄</div><h4>Resume Building</h4><p>A resume rebuilt around outcomes recruiters actually search for.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="240"><div class="feature-icon">🏢</div><h4>Internships</h4><p>Verified internships that convert into full-time offers.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="300"><div class="feature-icon">🧭</div><h4>Career Guidance</h4><p>1:1 guidance on the track, role and companies that fit your goals.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="360"><div class="feature-icon">🎯</div><h4>Placement Support</h4><p>Dedicated placement cell working your applications until you're hired.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="420"><div class="feature-icon">🧩</div><h4>Coding Challenges</h4><p>Weekly challenges that keep your problem-solving sharp.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="480"><div class="feature-icon">♾️</div><h4>Lifetime Access</h4><p>Course content and updates, yours to revisit whenever you need.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="540"><div class="feature-icon">💬</div><h4>Doubt Support</h4><p>Get unstuck fast with mentor-backed doubt resolution.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="600"><div class="feature-icon">📜</div><h4>Certificates</h4><p>Industry-recognised certification for every program you complete.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="660"><div class="feature-icon">🌐</div><h4>Community</h4><p>A standing network of alumni, mentors and hiring partners.</p></div>
+  </div>
+</section>
+
+<!-- ============ LEARNING JOURNEY TIMELINE ============ -->
+<section class="journey">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">The Path</span>
+    <h2>Your <span class="text-gradient">learning journey</span>, mapped out</h2>
+    <p>Seven stages. One direction — forward, toward an offer letter.</p>
+  </div>
+
+  <div class="timeline" id="timeline">
+    <div class="timeline-line"><div class="timeline-progress" id="timelineProgress"></div></div>
+    <div class="timeline-item" data-aos="fade-up"><div class="t-dot">1</div><h4>Register</h4><p>Pick your track and lock your cohort seat.</p></div>
+    <div class="timeline-item" data-aos="fade-up" data-aos-delay="60"><div class="t-dot">2</div><h4>Learn</h4><p>Structured modules taught by industry mentors.</p></div>
+    <div class="timeline-item" data-aos="fade-up" data-aos-delay="120"><div class="t-dot">3</div><h4>Practice</h4><p>Weekly tests and coding challenges build muscle memory.</p></div>
+    <div class="timeline-item" data-aos="fade-up" data-aos-delay="180"><div class="t-dot">4</div><h4>Projects</h4><p>Ship real, deployable projects for your portfolio.</p></div>
+    <div class="timeline-item" data-aos="fade-up" data-aos-delay="240"><div class="t-dot">5</div><h4>Internship</h4><p>Apply your skills inside a real engineering team.</p></div>
+    <div class="timeline-item" data-aos="fade-up" data-aos-delay="300"><div class="t-dot">6</div><h4>Mock Interviews</h4><p>Sharpen technical and HR rounds until they're second nature.</p></div>
+    <div class="timeline-item" data-aos="fade-up" data-aos-delay="360"><div class="t-dot">7</div><h4>Placement</h4><p>Our placement cell works with you until you're hired.</p></div>
+  </div>
+</section>
+
+<!-- ============ PLACEMENT STATISTICS ============ -->
+<section class="placements" id="placements">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">Outcomes</span>
+    <h2>Numbers that <span class="text-gradient">back the promise</span></h2>
+    <p>Across every cohort, every track, since day one.</p>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card" data-aos="fade-up" data-aos-delay="0">
+      <span class="stat-num" data-count="10">0</span><span class="stat-suffix">K+</span>
+      <p>Students</p>
+    </div>
+    <div class="stat-card" data-aos="fade-up" data-aos-delay="80">
+      <span class="stat-num" data-count="95">0</span><span class="stat-suffix">%</span>
+      <p>Placement</p>
+      <div class="progress-bar"><span data-progress="95"></span></div>
+    </div>
+    <div class="stat-card" data-aos="fade-up" data-aos-delay="160">
+      <span class="stat-num" data-count="500">0</span><span class="stat-suffix">+</span>
+      <p>Hiring Partners</p>
+    </div>
+    <div class="stat-card" data-aos="fade-up" data-aos-delay="240">
+      <span class="stat-num" data-count="200">0</span><span class="stat-suffix">+</span>
+      <p>Projects</p>
+    </div>
+    <div class="stat-card" data-aos="fade-up" data-aos-delay="320">
+      <span class="stat-num" data-count="100">0</span><span class="stat-suffix">+</span>
+      <p>Mentors</p>
+    </div>
+  </div>
+
+  <div class="chart-row" data-aos="fade-up">
+    <div class="chart-card">
+      <h4>Placement rate by track</h4>
+      <div class="hbar"><span>Full Stack Java</span><div class="hbar-track"><div class="hbar-fill" data-progress="97"></div></div><b>97%</b></div>
+      <div class="hbar"><span>Full Stack Python</span><div class="hbar-track"><div class="hbar-fill" data-progress="94"></div></div><b>94%</b></div>
+      <div class="hbar"><span>Generative AI</span><div class="hbar-track"><div class="hbar-fill" data-progress="92"></div></div><b>92%</b></div>
+      <div class="hbar"><span>Data Science</span><div class="hbar-track"><div class="hbar-fill" data-progress="90"></div></div><b>90%</b></div>
+      <div class="hbar"><span>Data / AI Analyst</span><div class="hbar-track"><div class="hbar-fill" data-progress="93"></div></div><b>93%</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="testimonials" id="testimonials">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">Success Stories</span>
+    <h2>Students who <span class="text-gradient">made the leap</span></h2>
+    <p>Real learners, real offers.</p>
+  </div>
+
+  <div class="swiper testi-swiper" data-aos="fade-up">
+    <div class="swiper-wrapper">
+
+      <div class="swiper-slide">
+        <div class="testi-card">
+          <div class="testi-rating">★★★★★</div>
+          <p>"The mock interviews were tougher than my actual one. By the time I sat for TCS, I already knew every question they'd ask."</p>
+          <div class="testi-person">
+            <div class="testi-avatar">AR</div>
+            <div><strong>Ananya Rao</strong><span>Full Stack Java · Placed at TCS</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-slide">
+        <div class="testi-card">
+          <div class="testi-rating">★★★★★</div>
+          <p>"I switched from mechanical engineering to Data Science in seven months. The mentors made the switch feel possible."</p>
+          <div class="testi-person">
+            <div class="testi-avatar">KV</div>
+            <div><strong>Karthik Varma</strong><span>Data Science · Placed at Infosys</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-slide">
+        <div class="testi-card">
+          <div class="testi-rating">★★★★★</div>
+          <p>"Live projects were the difference. My interviewers at Accenture spent half the round just asking about my dashboard project."</p>
+          <div class="testi-person">
+            <div class="testi-avatar">SP</div>
+            <div><strong>Sneha Patil</strong><span>Data Analyst · Placed at Accenture</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-slide">
+        <div class="testi-card">
+          <div class="testi-rating">★★★★★</div>
+          <p>"Go.Varlin's AI Agents module got me building things I didn't think I could build in under a year of self-study."</p>
+          <div class="testi-person">
+            <div class="testi-avatar">RM</div>
+            <div><strong>Rohan Mehta</strong><span>Generative AI · Placed at Cognizant</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-slide">
+        <div class="testi-card">
+          <div class="testi-rating">★★★★★</div>
+          <p>"The placement cell followed up weekly. I never felt like just another enrollment number."</p>
+          <div class="testi-person">
+            <div class="testi-avatar">PN</div>
+            <div><strong>Priya Nair</strong><span>Full Stack Python · Placed at Capgemini</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+  <div class="testi-nav">
+    <button class="testi-prev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <button class="testi-next" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
+  </div>
+</section>
+
+<!-- ============ LEARNING EXPERIENCE ============ -->
+<section class="experience">
+  <div class="exp-image" data-aos="fade-right">
+    <div class="exp-image-inner">
+      <div class="exp-glass-card ec-1"><strong>Live Class</strong><span>Started 2 min ago</span></div>
+      <div class="exp-glass-card ec-2"><strong>Weekly Test</strong><span>Score: 92/100</span></div>
+    </div>
+  </div>
+  <div class="exp-copy" data-aos="fade-left">
+    <span class="eyebrow">Inside the Classroom</span>
+    <h2>A learning experience <span class="text-gradient">built to hold your focus</span></h2>
+    <ul class="exp-list">
+      <li><span>🎥</span><div><strong>Interactive Learning</strong><p>Live, two-way sessions — not passive playback.</p></div></li>
+      <li><span>📼</span><div><strong>Recorded Classes</strong><p>Revisit any session, anytime, at your pace.</p></div></li>
+      <li><span>📝</span><div><strong>Assignments</strong><p>Applied tasks after every module, not just quizzes.</p></div></li>
+      <li><span>📊</span><div><strong>Weekly Tests</strong><p>Short, frequent checks that catch gaps early.</p></div></li>
+      <li><span>💻</span><div><strong>Hackathons</strong><p>Team sprints that simulate real product deadlines.</p></div></li>
+      <li><span>🤖</span><div><strong>AI Mentor</strong><p>An always-on assistant for the 2am doubt.</p></div></li>
+      <li><span>👥</span><div><strong>Community Support</strong><p>Peers and alumni, one message away.</p></div></li>
+      <li><span>📈</span><div><strong>Progress Tracking</strong><p>A dashboard that shows exactly where you stand.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">FAQs</span>
+    <h2>Questions, <span class="text-gradient">answered</span></h2>
+  </div>
+
+  <div class="faq-search" data-aos="fade-up">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="faqSearch" placeholder="Search a question...">
+  </div>
+
+  <div class="faq-list" id="faqList" data-aos="fade-up">
+    <div class="faq-item">
+      <button class="faq-q">Do I need a coding background to join? <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="faq-a"><p>No. Every track starts from fundamentals — most learners begin with zero programming experience.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Is placement support really guaranteed? <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="faq-a"><p>Yes — our placement cell continues working your applications until you receive an offer, with no time limit.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Are classes live or pre-recorded? <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="faq-a"><p>Both — live interactive sessions with mentors, plus recordings you can revisit anytime.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Can I switch tracks after enrolling? <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="faq-a"><p>Yes, within the first two weeks of a cohort, subject to a short conversation with your career counselor.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Do I get a certificate after completion? <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="faq-a"><p>Every program ends with an industry-recognised certificate you can add to your resume and LinkedIn.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">What if I fall behind during the cohort? <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="faq-a"><p>Lifetime access plus mentor-backed doubt support means you can always catch up at your own pace.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta">
+  <div class="cta-bg"></div>
+  <div class="cta-inner" data-aos="zoom-in">
+    <h2>Ready to Start Your Tech Career?</h2>
+    <p>Join the next cohort — seats are limited every session.</p>
+    <div class="cta-actions">
+      <a href="#register" class="btn btn-white btn-lg btn-anim"><span>Enroll Now</span></a>
+      <a href="#contact" class="btn btn-outline-white btn-lg">Talk To Counselor</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LEARNER HUB ============ -->
+<section class="learner-hub" id="learner-hub">
+  <div class="learner-hub-inner" data-aos="fade-up">
+    <div class="hub-content">
+      <span class="hub-badge">Community</span>
+      <h2>Join the Go<span class="brand-dot">.</span>Varlin <span class="text-gradient">Learner Hub</span></h2>
+      <p>Connect with thousands of learners across every track — swap notes, pair up on projects, get your doubts cleared, and stay accountable long after class ends.</p>
+
+      <div class="hub-stats">
+        <div><b>12K+</b><span>Active Learners</span></div>
+        <div><b>500+</b><span>Daily Discussions</span></div>
+        <div><b>24/7</b><span>Peer Support</span></div>
+      </div>
+
+      <div class="hub-actions">
+        <a href="{% url 'signup' %}" class="btn btn-primary btn-lg btn-anim"><span>Join the Learner Hub</span></a>
+        <a href="#programs" class="btn btn-ghost btn-lg">Explore Programs</a>
+      </div>
+    </div>
+
+    <div class="hub-visual">
+      <div class="hub-avatar-stack">
+        <span class="hub-avatar" style="--c:#2563EB">RA</span>
+        <span class="hub-avatar" style="--c:#14B8A6">SK</span>
+        <span class="hub-avatar" style="--c:#7C3AED">MP</span>
+        <span class="hub-avatar" style="--c:#F59E0B">TN</span>
+        <span class="hub-avatar hub-avatar-more">+12K</span>
+      </div>
+      <div class="hub-float hub-float-1">
+        <svg viewBox="0 0 24 24" width="16" height="16"><path d="M21 11.5a8.38 8.38 0 0 1-9 8.4A8.5 8.5 0 1 1 21 11.5Z"/></svg>
+        Cleared my DSA doubt in 5 mins
+      </div>
+      <div class="hub-float hub-float-2">
+        <svg viewBox="0 0 24 24" width="16" height="16"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg>
+        24 projects shipped this week
+      </div>
+      <div class="hub-glow"></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer" id="contact">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#home" class="brand">
+        <span class="brand-mark"><svg viewBox="0 0 32 32" fill="none"><path d="M16 2L29 9V23L16 30L3 23V9L16 2Z" stroke="url(#gradB)" stroke-width="2"/><path d="M16 12L22 15.5V19L16 22.5L10 19V15.5L16 12Z" fill="url(#gradB)"/><defs><linearGradient id="gradB" x1="3" y1="2" x2="29" y2="30"><stop stop-color="#2563EB"/><stop offset="1" stop-color="#14B8A6"/></linearGradient></defs></svg></span>
+        <span class="brand-text">Go<span class="brand-dot">.</span>Varlin</span>
+      </a>
+      <p>Practical, mentor-led learning with a straight line to placement.</p>
+      <div class="social-icons">
+        <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M4.98 3.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4ZM3 8.98h4V21H3V8.98ZM9 8.98h3.8v1.7h.05c.53-1 1.83-2 3.77-2 4.03 0 4.78 2.5 4.78 5.86V21h-4v-5.5c0-1.3-.02-3-1.86-3-1.86 0-2.15 1.4-2.15 2.9V21H9V8.98Z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l6 3-6 3V9Z" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M22 5.9c-.7.3-1.5.6-2.3.7.8-.5 1.4-1.3 1.7-2.3-.8.5-1.7.8-2.6 1a4 4 0 0 0-6.9 3.6A11.4 11.4 0 0 1 3 4.9a4 4 0 0 0 1.2 5.3 4 4 0 0 1-1.8-.5 4 4 0 0 0 3.2 4 4 4 0 0 1-1.8.1 4 4 0 0 0 3.7 2.8A11.4 11.4 0 0 1 2 19a11.4 11.4 0 0 0 6.2 1.8c7.4 0 11.5-6.2 11.5-11.6v-.5c.8-.6 1.5-1.3 2-2.1Z"/></svg></a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h5>Quick Links</h5>
+      <a href="#programs">Courses</a>
+      <a href="#features">Features</a>
+      <a href="#placements">Placements</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="{% url 'contact' %}">Contact</a>
+    </div>
+
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <p class="footer-contact"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4V4Zm0 0l8 9 8-9"/></svg> hello@govarlin.com</p>
+      <p class="footer-contact"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.6a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg> +91 98765 43210</p>
+      <p class="footer-contact"><svg viewBox="0 0 24 24"><path d="M21 10c0 6-9 12-9 12S3 16 3 10a9 9 0 1 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg> Bengaluru, Karnataka, India</p>
+    </div>
+
+    <div class="footer-col footer-newsletter">
+      <h5>Newsletter</h5>
+      <p>New cohorts, career tips, no spam.</p>
+      <form class="newsletter-form" onsubmit="return false;">
+        <input type="email" placeholder="you@email.com" required>
+        <button type="submit" aria-label="Subscribe"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 Go.Varlin. All rights reserved.</p>
+    <div class="footer-legal"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
+<!-- Scripts -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
+
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/animation.js' %}"></script>
+<script src="{% static 'js/slider.js' %}"></script>
+<script src="{% static 'js/video-modal.js' %}"></script>
+</body>
+</html>

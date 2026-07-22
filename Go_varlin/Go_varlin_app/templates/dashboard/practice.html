@@ -1,0 +1,71 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load static dashboard_extras %}
+{% block title %}Practice{% endblock %}
+{% block breadcrumb %}<span>/ Practice</span>{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/dashboard/practice.css' %}">{% endblock %}
+
+{% block content %}
+<div class="lms-panel-head">
+  <h2>Practice</h2>
+  <p>Coding problems, MCQs and your daily challenge.</p>
+</div>
+
+{% if daily_challenge %}
+<div class="glass-card daily-challenge">
+  <div><span class="badge-tag live">Daily Challenge</span><h4>{{ daily_challenge.title }}</h4><span class="mentor">{{ daily_challenge.topic }} · {{ daily_challenge.get_difficulty_display }}</span></div>
+  <a href="#" class="btn-sm primary">Solve now</a>
+</div>
+{% endif %}
+
+<div class="practice-filters">
+  <div class="filter-group" data-filter="kind">
+    <button class="filter-chip active" data-value="all">All</button>
+    <button class="filter-chip" data-value="coding">Coding Problems</button>
+    <button class="filter-chip" data-value="mcq">MCQs</button>
+  </div>
+  <div class="filter-group" data-filter="difficulty">
+    <button class="filter-chip active" data-value="all">Any difficulty</button>
+    <button class="filter-chip" data-value="easy">Easy</button>
+    <button class="filter-chip" data-value="medium">Medium</button>
+    <button class="filter-chip" data-value="hard">Hard</button>
+  </div>
+  <div class="filter-group" data-filter="status">
+    <button class="filter-chip active" data-value="all">All</button>
+    <button class="filter-chip" data-value="solved">Solved</button>
+    <button class="filter-chip" data-value="unsolved">Unsolved</button>
+    <button class="filter-chip" data-value="bookmarked">Bookmarks</button>
+  </div>
+</div>
+
+<div class="practice-table">
+  <div class="practice-row practice-head">
+    <span>Problem</span><span>Topic</span><span>Difficulty</span><span>Type</span><span>Status</span>
+  </div>
+  {% for p in problems %}
+  {% with a=attempts|get_item:p.id %}
+  <div class="practice-row" data-kind="{{ p.kind }}" data-difficulty="{{ p.difficulty }}"
+       data-solved="{% if a.solved %}yes{% else %}no{% endif %}"
+       data-bookmarked="{% if a.bookmarked %}yes{% else %}no{% endif %}">
+    <span class="prob-title">{{ p.title }}</span>
+    <span>{{ p.topic }}</span>
+    <span class="difficulty-tag {{ p.difficulty }}">{{ p.get_difficulty_display }}</span>
+    <span>{{ p.get_kind_display }}</span>
+    <span>
+      <button class="btn-sm {% if a.bookmarked %}primary{% endif %}" data-bookmark="{{ p.id }}">🔖</button>
+      <a href="#" class="btn-sm primary">{% if a.solved %}Review{% else %}Solve{% endif %}</a>
+    </span>
+  </div>
+  {% endwith %}
+  {% empty %}
+  <p class="lms-empty-line">No problems published yet.</p>
+  {% endfor %}
+</div>
+
+<h3 class="lms-section-title">Practice Leaderboard</h3>
+<ol class="leaderboard wide">
+  <li><span class="rank">1</span> Ayush B. <b>184 solved</b></li>
+  <li><span class="rank">2</span> Nikitha R. <b>171 solved</b></li>
+  <li class="me"><span class="rank">9</span> You <b>42 solved</b></li>
+</ol>
+{% endblock %}
+{% block extra_js %}<script src="{% static 'js/dashboard/practice.js' %}"></script>{% endblock %}

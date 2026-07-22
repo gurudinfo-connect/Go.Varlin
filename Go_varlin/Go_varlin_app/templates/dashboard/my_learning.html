@@ -1,0 +1,47 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% block title %}My Learning{% endblock %}
+{% block breadcrumb %}<span>/ My Learning</span>{% endblock %}
+
+{% block content %}
+<div class="lms-panel-head">
+  <h2>My Learning</h2>
+  <p>Every enrolled course, your learning path and where you left off.</p>
+</div>
+
+<div class="lms-stat-grid four">
+  <div class="lms-stat-card"><div class="stat-label">Enrolled Courses</div><div class="stat-num">{{ enrollments|length }}</div></div>
+  <div class="lms-stat-card"><div class="stat-label">Completed Modules</div><div class="stat-num">{{ completed|length }}</div></div>
+  <div class="lms-stat-card"><div class="stat-label">Average Progress</div><div class="stat-num">{{ avg_progress }}%</div></div>
+  <div class="lms-stat-card"><div class="stat-label">Est. Completion</div><div class="stat-num">6 wks</div></div>
+</div>
+
+<h3 class="lms-section-title">Continue Learning</h3>
+<div class="lms-card-grid">
+  {% for e in recently_viewed %}
+  <a href="{% url 'dashboard:course_player' e.course.slug %}" class="glass-card course-card">
+    <div class="course-card-head">
+      <span class="course-icon">{{ e.course.icon }}</span>
+      <div><h4>{{ e.course.name }}</h4><span class="mentor">{{ e.course.mentor }}</span></div>
+    </div>
+    <div class="progress-row"><span>{{ e.progress_pct }}% complete</span><span>{{ e.last_lesson|default:"Not started" }}</span></div>
+    <div class="progress-track"><div class="progress-fill" style="width:{{ e.progress_pct }}%"></div></div>
+    <span class="btn-sm primary block">Resume Learning</span>
+  </a>
+  {% empty %}<p class="lms-empty-line">Nothing enrolled yet.</p>{% endfor %}
+</div>
+
+<h3 class="lms-section-title">Enrolled Courses</h3>
+<div class="lms-list">
+  {% for e in enrollments %}
+  <div class="glass-row">
+    <span class="course-icon">{{ e.course.icon }}</span>
+    <div class="row-main"><h4>{{ e.course.name }}</h4><span>{{ e.course.category }} · {{ e.course.duration }}</span></div>
+    <div class="progress-track small"><div class="progress-fill" style="width:{{ e.progress_pct }}%"></div></div>
+    <a href="{% url 'dashboard:course_player' e.course.slug %}" class="btn-sm">Open</a>
+  </div>
+  {% endfor %}
+</div>
+
+<h3 class="lms-section-title">Bookmarks</h3>
+<p class="lms-empty-line">Lessons and problems you bookmark will appear here.</p>
+{% endblock %}

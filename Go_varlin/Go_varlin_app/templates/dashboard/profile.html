@@ -1,0 +1,60 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load static %}
+{% block title %}Profile{% endblock %}
+{% block breadcrumb %}<span>/ Profile</span>{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/dashboard/profile.css' %}">{% endblock %}
+
+{% block content %}
+<div class="lms-panel-head">
+  <h2>Profile</h2>
+  <p>Mentors and placement partners see this information.</p>
+</div>
+
+<div class="profile-layout">
+  <div class="glass-card profile-card">
+    <div class="profile-head">
+      {% if profile.photo %}<img src="{{ profile.photo.url }}" class="profile-photo">{% else %}
+      <span class="profile-avatar">{{ request.user.first_name|first|default:request.user.username|first|upper }}</span>{% endif %}
+      <div>
+        <h3>{{ request.user.get_full_name|default:request.user.username }}</h3>
+        <span class="mentor">{{ profile.headline|default:"Go.Varlin Student" }}</span>
+      </div>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" id="profileForm">
+      {% csrf_token %}
+      <div class="profile-field"><label>Full Name</label><input type="text" name="full_name" value="{{ request.user.get_full_name }}" disabled></div>
+      <div class="profile-field"><label>Email</label><input type="email" value="{{ request.user.email }}" disabled></div>
+      <div class="profile-field"><label>Headline</label><input type="text" name="headline" value="{{ profile.headline }}" disabled></div>
+      <div class="profile-field"><label>Skills</label><input type="text" name="skills" value="{{ profile.skills }}" placeholder="Python, Django, React…" disabled></div>
+      <div class="profile-field"><label>Education</label><textarea name="education" rows="2" disabled>{{ profile.education }}</textarea></div>
+      <div class="profile-field"><label>Experience</label><textarea name="experience" rows="2" disabled>{{ profile.experience }}</textarea></div>
+      <div class="profile-field-row">
+        <div class="profile-field"><label>LinkedIn</label><input type="url" name="linkedin_url" value="{{ profile.linkedin_url }}" disabled></div>
+        <div class="profile-field"><label>GitHub</label><input type="url" name="github_url" value="{{ profile.github_url }}" disabled></div>
+      </div>
+      <div class="profile-field"><label>Resume</label>
+        {% if profile.resume %}<a href="{{ profile.resume.url }}" class="btn-sm">⬇ Current Resume</a>{% endif %}
+        <input type="file" name="resume" disabled>
+      </div>
+      <div class="profile-actions">
+        <button type="button" class="btn-sm primary" id="profileEditToggle">Edit Profile</button>
+        <button type="submit" class="btn-sm is-hidden" id="profileSaveBtn">Save Changes</button>
+      </div>
+    </form>
+  </div>
+
+  <aside class="profile-side">
+    <div class="glass-card">
+      <h3 class="side-title">Achievements</h3>
+      <div class="stat-num">{{ achievements }}</div>
+      <span class="mentor">Certificates earned</span>
+    </div>
+    <div class="glass-card">
+      <h3 class="side-title">Progress Analytics</h3>
+      <div class="progress-track"><div class="progress-fill" style="width:64%"></div></div>
+      <span class="mentor">64% across all enrolled courses</span>
+    </div>
+  </aside>
+</div>
+{% endblock %}

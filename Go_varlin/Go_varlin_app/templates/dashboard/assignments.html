@@ -1,0 +1,41 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load dashboard_extras %}
+{% block title %}Assignments{% endblock %}
+{% block breadcrumb %}<span>/ Assignments</span>{% endblock %}
+
+{% block content %}
+<div class="lms-panel-head">
+  <h2>Assignments</h2>
+  <p>Track briefs, deadlines and mentor feedback across every enrolled course.</p>
+</div>
+
+<div class="practice-filters">
+  <div class="filter-group" data-filter="status">
+    <button class="filter-chip active" data-value="all">All</button>
+    <button class="filter-chip" data-value="pending">Pending</button>
+    <button class="filter-chip" data-value="submitted">Submitted</button>
+    <button class="filter-chip" data-value="reviewed">Reviewed</button>
+  </div>
+</div>
+
+<div class="lms-card-grid">
+  {% for a in assignments %}
+  {% with sub=submissions|get_item:a.id %}
+  <div class="glass-card assignment-card" data-status="{{ sub.status|default:'pending' }}">
+    <div class="assignment-card-head">
+      <h4>{{ a.title }}</h4>
+      <span class="badge-tag status-{{ sub.status|default:'pending' }}">{{ sub.get_status_display|default:"Pending" }}</span>
+    </div>
+    <p class="mentor">{{ a.course.name }} · Due {{ a.due_date|date:"M j, Y" }}</p>
+    <div class="assignment-actions">
+      {% if a.brief_pdf %}<a href="{{ a.brief_pdf.url }}" class="btn-sm">⬇ Download PDF</a>{% endif %}
+      <button class="btn-sm primary" data-upload="{{ a.id }}">⬆ Upload Solution</button>
+      {% if sub.feedback %}<button class="btn-sm" data-feedback="{{ a.id }}">💬 View Feedback</button>{% endif %}
+    </div>
+  </div>
+  {% endwith %}
+  {% empty %}
+  <p class="lms-empty-line">No assignments posted yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

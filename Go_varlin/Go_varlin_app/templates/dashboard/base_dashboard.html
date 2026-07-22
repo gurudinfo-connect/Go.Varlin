@@ -1,0 +1,164 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Dashboard{% endblock %} — Go.Varlin</title>
+<link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+<script>
+  /* Apply saved theme before first paint to avoid a dark/light flash */
+  (function () {
+    var saved = localStorage.getItem('govarlin-lms-theme');
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{% static 'css/dashboard/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/sidebar.css' %}">
+{% block extra_css %}{% endblock %}
+<link rel="stylesheet" href="{% static 'css/dashboard/dashboard-responsive.css' %}">
+</head>
+<body>
+
+<div class="lms-shell">
+
+  <!-- ============ FIXED SIDEBAR ============ -->
+  <aside class="lms-sidebar" id="lmsSidebar">
+    <a href="{% url 'dashboard:home' %}" class="lms-brand">
+      <span class="lms-brand-mark">GV</span>
+      <span class="lms-brand-text">Go<span class="dot">.</span>Varlin</span>
+    </a>
+
+    <nav class="lms-nav">
+      <a href="{% url 'dashboard:home' %}" class="lms-nav-link {% if active_page == 'dashboard' %}active{% endif %}">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="{% url 'dashboard:my_learning' %}" class="lms-nav-link {% if active_page == 'my-learning' %}active{% endif %}">
+        <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+        <span>My Learning</span>
+      </a>
+      <a href="{% url 'dashboard:practice' %}" class="lms-nav-link {% if active_page == 'practice' %}active{% endif %}">
+        <svg viewBox="0 0 24 24"><path d="m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16"/></svg>
+        <span>Practice</span>
+      </a>
+      <a href="{% url 'dashboard:assignments' %}" class="lms-nav-link {% if active_page == 'assignments' %}active{% endif %}">
+        <svg viewBox="0 0 24 24"><path d="M9 2h6l1 3H8l1-3Z"/><rect x="5" y="5" width="14" height="17" rx="2"/><path d="M9 12h6M9 16h6"/></svg>
+        <span>Assignments</span>
+      </a>
+      <a href="{% url 'dashboard:projects' %}" class="lms-nav-link {% if active_page == 'projects' %}active{% endif %}">
+        <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        <span>Projects</span>
+      </a>
+      <a href="{% url 'dashboard:tests' %}" class="lms-nav-link {% if active_page == 'tests' %}active{% endif %}">
+        <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <span>Tests</span>
+      </a>
+      <a href="{% url 'dashboard:certificates' %}" class="lms-nav-link {% if active_page == 'certificates' %}active{% endif %}">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M8.5 13.5 7 22l5-3 5 3-1.5-8.5"/></svg>
+        <span>Certificates</span>
+      </a>
+      <a href="{% url 'dashboard:placements' %}" class="lms-nav-link {% if active_page == 'placements' %}active{% endif %}">
+        <svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V9l7-4 7 4v12M9 21v-6h6v6"/></svg>
+        <span>Placement Hub</span>
+      </a>
+      <a href="{% url 'dashboard:community' %}" class="lms-nav-link {% if active_page == 'community' %}active{% endif %}">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Community</span>
+      </a>
+      <a href="{% url 'dashboard:calendar' %}" class="lms-nav-link {% if active_page == 'calendar' %}active{% endif %}">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <span>Calendar</span>
+      </a>
+      <a href="{% url 'dashboard:notifications' %}" class="lms-nav-link {% if active_page == 'notifications' %}active{% endif %}">
+        <svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+        <span>Notifications</span>
+        {% if unread_notifications %}<span class="badge-pill">{{ unread_notifications }}</span>{% endif %}
+      </a>
+      <a href="{% url 'dashboard:profile' %}" class="lms-nav-link {% if active_page == 'profile' %}active{% endif %}">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.6-4 6-6 8-6s6.4 2 8 6"/></svg>
+        <span>Profile</span>
+      </a>
+      <a href="{% url 'dashboard:settings' %}" class="lms-nav-link {% if active_page == 'settings' %}active{% endif %}">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 13a7.9 7.9 0 0 0 0-2l2-1.5-2-3.4-2.3.9a8 8 0 0 0-1.7-1L15 3h-4l-.4 2.4a8 8 0 0 0-1.7 1l-2.3-.9-2 3.4L6.6 11a7.9 7.9 0 0 0 0 2l-2 1.5 2 3.4 2.3-.9a8 8 0 0 0 1.7 1L11 21h4l.4-2.4a8 8 0 0 0 1.7-1l2.3.9 2-3.4-2-1.5Z"/></svg>
+        <span>Settings</span>
+      </a>
+    </nav>
+
+    <form action="{% url 'logout' %}" method="post" class="lms-logout">
+      {% csrf_token %}
+      <button type="submit" class="lms-nav-link">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>
+        <span>Logout</span>
+      </button>
+    </form>
+  </aside>
+
+  <div class="lms-body">
+
+    <!-- ============ TOP NAV ============ -->
+    <header class="lms-topnav">
+      <button class="lms-sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+        <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+
+      <div class="lms-breadcrumb">
+        <a href="{% url 'dashboard:home' %}">Dashboard</a>
+        {% block breadcrumb %}{% endblock %}
+      </div>
+
+      <div class="lms-search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="search" placeholder="Search courses, lessons, problems…" id="lmsSearchInput">
+      </div>
+
+      <div class="lms-topnav-actions">
+        {% if enrollments|length > 1 %}
+        <div class="lms-course-switcher">
+          <select id="courseSwitcher">
+            {% for e in enrollments %}
+            <option value="{{ e.course.slug }}" {% if current_course.slug == e.course.slug %}selected{% endif %}>{{ e.course.icon }} {{ e.course.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        {% elif current_course %}
+        <span class="lms-current-course">{{ current_course.icon }} {{ current_course.name }}</span>
+        {% endif %}
+
+        <button class="lms-icon-btn" id="messagesBtn" aria-label="Messages">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </button>
+
+        <a href="{% url 'dashboard:notifications' %}" class="lms-icon-btn" aria-label="Notifications">
+          <svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+          {% if unread_notifications %}<span class="dot-badge"></span>{% endif %}
+        </a>
+
+        <button class="lms-icon-btn" id="darkModeToggle" aria-label="Toggle dark mode">
+          <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+        </button>
+
+        <a href="{% url 'dashboard:profile' %}" class="lms-avatar" aria-label="Profile">
+          {% if request.user.first_name %}{{ request.user.first_name|first }}{% else %}{{ request.user.username|first|upper }}{% endif %}
+        </a>
+      </div>
+    </header>
+
+    <!-- ============ PAGE CONTENT ============ -->
+    <main class="lms-main">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</div>
+
+<script src="{% static 'js/dashboard/sidebar.js' %}"></script>
+<script src="{% static 'js/dashboard/dashboard.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

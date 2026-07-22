@@ -1,0 +1,442 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome — Go.Varlin</title>
+<meta name="description" content="Go.Varlin is a premium EdTech platform offering Full Stack, AI, Data Science and Analytics programs with mentorship, live projects and guaranteed placement support.">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- AOS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+<!-- Styles -->
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/animations.css' %}">
+<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+<link rel="stylesheet" href="{% static 'css/video-modal.css' %}">
+<link rel="stylesheet" href="{% static 'css/lead-modal.css' %}">
+<link rel="stylesheet" href="{% static 'css/welcome.css' %}">
+<link rel="stylesheet" href="{% static 'css/global-responsive.css' %}">
+</head>
+<body class="page-welcome">
+
+<!-- ============ PAGE LOADER ============ -->
+<div class="loader" id="loader">
+  <div class="loader-mark">
+    <span class="loader-bracket">&lt;</span>
+    <span class="loader-dot"></span>
+    <span class="loader-bracket">/&gt;</span>
+  </div>
+  <div class="loader-word">Go.Varlin</div>
+  <div class="loader-bar"><span></span></div>
+</div>
+
+<!-- ============ CURSOR GLOW ============ -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- ============ NAVBAR (no outbound navigation — anchors stay on this page) ============ -->
+<header class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#home" class="brand">
+      <span class="brand-text">G<span class="brand-orb"><span class="brand-orb-core"></span></span><span class="brand-dot">.</span>Varlin</span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <span class="nav-indicator" id="navIndicator"></span>
+      <a href="#home" class="active">Home</a>
+      <a href="#why-us">About</a>
+      <a href="#programs">Courses</a>
+      <a href="#why">Why Us</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="icon-btn theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+      </button>
+      <a href="{% url 'signin' %}" class="nav-login-btn">
+        <span class="nav-login-icon"><svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg></span>
+        <span class="nav-login-text">Login</span>
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home">Home</a>
+  <a href="#why-us">About</a>
+  <a href="#programs">Courses</a>
+  <a href="#why">Why Us</a>
+  <div class="mobile-menu-actions">
+    <a href="signin.html" class="nav-login-btn nav-login-btn-mobile">
+      <span class="nav-login-icon"><svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg></span>
+      <span class="nav-login-text">Login</span>
+    </a>
+  </div>
+</div>
+
+<main>
+<!-- ============ HERO / INTRO ============ -->
+<section class="hero" id="home">
+  <div class="hero-bg">
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
+    <div class="aurora aurora-3"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <canvas id="particles"></canvas>
+    <div class="grid-overlay"></div>
+    <div class="hero-beam"></div>
+    <div class="code-float cf-1">const</div>
+    <div class="code-float cf-2">&lt;/&gt;</div>
+    <div class="code-float cf-3">{ }</div>
+    <div class="code-float cf-4">01</div>
+    <div class="code-float cf-5">AI</div>
+  </div>
+
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span> An intensive, industry-mapped roadmap for the 2026 Cohort
+      </div>
+
+      <h1 class="hero-title">
+        Learn Future Technologies
+        <span class="hero-title-gradient"><span id="heroTyped">With Industry Experts</span><span class="hero-cursor" aria-hidden="true"></span></span>
+      </h1>
+
+      <p class="hero-sub">
+        Empowering students with practical learning, real projects, career mentorship,
+        and guaranteed placement support — bridging the gap between academic theory
+        and production-grade engineering.
+      </p>
+
+      <div class="hero-actions">
+        <button type="button" class="btn btn-primary btn-lg btn-anim" data-enroll-trigger="">
+          <span>Enroll Now</span>
+        </button>
+        <a href="#programs" class="btn btn-outline btn-lg">
+          <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="10"/><path d="M10 8.5l6 3.5-6 3.5z"/></svg>
+          Explore Courses
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="hstat"><span class="hstat-num" data-count="10000">0</span><span class="hstat-suffix">+</span><p>Students</p></div>
+        <div class="hstat"><span class="hstat-num" data-count="95">0</span><span class="hstat-suffix">%</span><p>Placement Rate</p></div>
+        <div class="hstat"><span class="hstat-num" data-count="100">0</span><span class="hstat-suffix">+</span><p>Hiring Partners</p></div>
+        <div class="hstat"><span class="hstat-num" data-count="250">0</span><span class="hstat-suffix">+</span><p>Live Projects</p></div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+
+      <div class="laptop-mock">
+        <div class="laptop-screen">
+          <div class="editor-top"><span></span><span></span><span></span><p>learning-path.js</p></div>
+          <div class="editor-body">
+            <p><span class="tok-kw">const</span> <span class="tok-var">career</span> = <span class="tok-kw">await</span> <span class="tok-fn">goVarlin</span>.<span class="tok-fn">launch</span>({</p>
+            <p>&nbsp;&nbsp;track: <span class="tok-str">"Full Stack + AI"</span>,</p>
+            <p>&nbsp;&nbsp;mentors: <span class="tok-num">120</span>,</p>
+            <p>&nbsp;&nbsp;projects: <span class="tok-num">250</span>,</p>
+            <p>&nbsp;&nbsp;placement: <span class="tok-bool">true</span></p>
+            <p>});</p>
+            <p class="typing-cursor">&nbsp;</p>
+          </div>
+        </div>
+        <div class="laptop-base"></div>
+      </div>
+      <div class="float-card fc-1">
+        <div class="fc-icon fc-icon-1">✓</div>
+        <div><strong>Certificate Issued</strong><p>Full Stack Java</p></div>
+      </div>
+      <div class="float-card fc-2">
+        <div class="fc-icon fc-icon-2">🎯</div>
+        <div><strong>Interview Cleared</strong><p>TCS · Offer Letter</p></div>
+      </div>
+      <div class="orbit-ring"></div>
+    </div>
+  </div>
+
+  <div class="scroll-cue"><span></span>Scroll</div>
+</section>
+
+<!-- ============ WHY GO.VARLIN / ABOUT ============ -->
+<section class="why-us" id="why-us">
+  <div class="why-us-inner">
+    <div class="why-us-copy" data-aos="fade-right">
+      <span class="eyebrow">Why Go.Varlin</span>
+      <h2>We built the school <span class="text-gradient">we wish we had</span></h2>
+      <p class="why-us-lead">Most platforms sell you videos and wish you luck. We stay in the room until you have an offer letter — that's the entire difference. Go.Varlin pairs mentor-led classes with real, deployable projects so you graduate with proof, not just a certificate.</p>
+
+      <div class="why-us-stats">
+        <div><b>10,000+</b><span>Careers changed</span></div>
+        <div><b>95%</b><span>Placement rate</span></div>
+        <div><b>500+</b><span>Hiring partners</span></div>
+      </div>
+
+      <button type="button" class="btn btn-primary btn-anim" data-enroll-trigger=""><span>Enroll Now</span></button>
+    </div>
+
+    <div class="why-us-compare" data-aos="fade-left">
+      <div class="compare-card compare-them">
+        <span class="compare-tag">Typical Bootcamps</span>
+        <ul>
+          <li><span class="x-mark">✕</span>Pre-recorded videos, no live doubt-solving</li>
+          <li><span class="x-mark">✕</span>Generic projects everyone submits</li>
+          <li><span class="x-mark">✕</span>Placement help stops after 1-2 tries</li>
+          <li><span class="x-mark">✕</span>One-size-fits-all curriculum</li>
+        </ul>
+      </div>
+      <div class="compare-card compare-us">
+        <span class="compare-tag compare-tag-us">Go.Varlin</span>
+        <ul>
+          <li><span class="check-mark">✓</span>Live mentor-led classes, every week</li>
+          <li><span class="check-mark">✓</span>Real, deployable, portfolio-ready projects</li>
+          <li><span class="check-mark">✓</span>Placement cell works until you're hired</li>
+          <li><span class="check-mark">✓</span>Track chosen around your career goal</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROGRAMS / COURSES ============ -->
+<section class="programs" id="programs">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">Programs</span>
+    <h2>Career-defining programs, <span class="text-gradient">built with industry</span></h2>
+    <p>Six tracks. Every one built around live projects, real mentors, and a straight line to placement.</p>
+  </div>
+
+  <div class="course-grid">
+
+    <article class="course-card" data-reveal="tilt-in" data-reveal-index="0">
+      <div class="course-glow"></div>
+      <div class="course-top">
+        <div class="course-icon ci-1"><svg viewBox="0 0 24 24"><path d="M9 3h6M12 3v4M5 9h14l-1.5 10a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2L5 9Z"/></svg></div>
+        <span class="course-tag">Most Popular</span>
+      </div>
+      <h3>Full Stack Java</h3>
+      <p class="course-desc">Java, Spring Boot, Hibernate and React — build production-grade apps end to end.</p>
+      <div class="course-stack">
+        <span>Java</span><span>Spring Boot</span><span>Hibernate</span><span>MySQL</span><span>React</span><span>Git</span>
+      </div>
+      <div class="course-meta">
+        <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>6 Months</div>
+        <div><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>10 Projects</div>
+        <div><svg viewBox="0 0 24 24"><path d="M12 2l9 4.5v9L12 20l-9-4.5v-9L12 2Z"/></svg>Certified</div>
+      </div>
+      <div class="course-card-actions">
+        <button type="button" class="btn btn-demo" data-video-demo="static/videos/Java Introduction.mp4" data-video-title="Full Stack Java — Course Preview">
+          <svg viewBox="0 0 24 24" width="15" height="15"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5-6-3.5Z" fill="currentColor" stroke="none"/></svg>
+          Watch Demo
+        </button>
+        <button type="button" class="btn btn-card" data-enroll-trigger="full-stack-python">Enroll Interest <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+    </article>
+
+    <article class="course-card" data-reveal="tilt-in" data-reveal-index="1">
+      <div class="course-glow"></div>
+      <div class="course-top">
+        <div class="course-icon ci-2"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 3 4 3 6.5S6.5 11 12 11s9-2 9-4.5S17.5 2 12 2Z"/><path d="M3 6.5V17.5C3 20 6.5 22 12 22s9-2 9-4.5V6.5"/><path d="M3 12c0 2.5 3.5 4.5 9 4.5s9-2 9-4.5"/></svg></div>
+        <span class="course-tag">Beginner Friendly</span>
+      </div>
+      <h3>Full Stack Python</h3>
+      <p class="course-desc">Django, Flask and REST APIs paired with a modern React front end.</p>
+      <div class="course-stack">
+        <span>Python</span><span>Django</span><span>Flask</span><span>MongoDB</span><span>React</span>
+      </div>
+      <div class="course-meta">
+        <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>6 Months</div>
+        <div><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>10 Projects</div>
+        <div><svg viewBox="0 0 24 24"><path d="M12 2l9 4.5v9L12 20l-9-4.5v-9L12 2Z"/></svg>Certified</div>
+      </div>
+      <div class="course-card-actions">
+        <button type="button" class="btn btn-demo" data-video-demo="static/videos/full-stack-python-demo.mp4" data-video-title="Full Stack Python — Course Preview">
+          <svg viewBox="0 0 24 24" width="15" height="15"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5-6-3.5Z" fill="currentColor" stroke="none"/></svg>
+          Watch Demo
+        </button>
+        <button type="button" class="btn btn-card" data-enroll-trigger="full-stack-python">Enroll Interest <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+    </article>
+
+    <article class="course-card" data-reveal="tilt-in" data-reveal-index="2">
+      <div class="course-glow"></div>
+      <div class="course-top">
+        <div class="course-icon ci-3"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg></div>
+        <span class="course-tag course-tag-hot">Trending</span>
+      </div>
+      <h3>Generative AI</h3>
+      <p class="course-desc">Prompt engineering, LLMs, RAG and multi-agent systems with LangGraph &amp; MCP.</p>
+      <div class="course-stack">
+        <span>LangChain</span><span>LangGraph</span><span>OpenAI</span><span>RAG</span><span>AI Agents</span>
+      </div>
+     <div class="course-meta">
+        <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>6 Months</div>
+        <div><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>10 Projects</div>
+        <div><svg viewBox="0 0 24 24"><path d="M12 2l9 4.5v9L12 20l-9-4.5v-9L12 2Z"/></svg>Certified</div>
+      </div>
+      <div class="course-card-actions">
+        <button type="button" class="btn btn-demo" data-video-demo="static/videos/Introduction to Generative AI.mp4" data-video-title="Generative AI — Course Preview">
+          <svg viewBox="0 0 24 24" width="15" height="15"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5-6-3.5Z" fill="currentColor" stroke="none"/></svg>
+          Watch Demo
+        </button>
+        <button type="button" class="btn btn-card" data-enroll-trigger="full-stack-python">Enroll Interest <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+    </article>
+
+    <article class="course-card" data-reveal="tilt-in" data-reveal-index="3">
+      <div class="course-glow"></div>
+      <div class="course-top">
+        <div class="course-icon ci-4"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 19v-6M12 19V9M16 19v-9M20 19v-4"/></svg></div>
+        <span class="course-tag">Job Ready</span>
+      </div>
+      <h3>AI Analyst</h3>
+      <p class="course-desc">Statistics, machine learning and dashboards for data-driven business decisions.</p>
+      <div class="course-stack">
+        <span>Python</span><span>Power BI</span><span>SQL</span><span>Machine Learning</span>
+      </div>
+      <div class="course-meta">
+        <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>6 Months</div>
+        <div><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>10 Projects</div>
+        <div><svg viewBox="0 0 24 24"><path d="M12 2l9 4.5v9L12 20l-9-4.5v-9L12 2Z"/></svg>Certified</div>
+      </div>
+      <div class="course-card-actions">
+        <button type="button" class="btn btn-demo" data-video-demo="static/videos/AI Analyst Introduction.mp4" data-video-title="AI Analyst — Course Preview">
+          <svg viewBox="0 0 24 24" width="15" height="15"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5-6-3.5Z" fill="currentColor" stroke="none"/></svg>
+          Watch Demo
+        </button>
+        <button type="button" class="btn btn-card" data-enroll-trigger="full-stack-python">Enroll Interest <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+    </article>
+
+    <article class="course-card" data-reveal="tilt-in" data-reveal-index="4">
+      <div class="course-glow"></div>
+      <div class="course-top">
+        <div class="course-icon ci-5"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></div>
+        <span class="course-tag">High Demand</span>
+      </div>
+      <h3>Data Analyst</h3>
+      <p class="course-desc">Excel, SQL, Tableau and Power BI through real business case studies.</p>
+      <div class="course-stack">
+        <span>SQL</span><span>Excel</span><span>Power BI</span><span>Tableau</span><span>Pandas</span>
+      </div>
+     <div class="course-meta">
+        <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>6 Months</div>
+        <div><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>10 Projects</div>
+        <div><svg viewBox="0 0 24 24"><path d="M12 2l9 4.5v9L12 20l-9-4.5v-9L12 2Z"/></svg>Certified</div>
+      </div>
+      <div class="course-card-actions">
+        <button type="button" class="btn btn-demo" data-video-demo="static/videos/Data Analyst Introduction.mp4" data-video-title="Data Analyst — Course Preview">
+          <svg viewBox="0 0 24 24" width="15" height="15"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5-6-3.5Z" fill="currentColor" stroke="none"/></svg>
+          Watch Demo
+        </button>
+        <button type="button" class="btn btn-card" data-enroll-trigger="full-stack-python">Enroll Interest <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+    </article>
+
+    <article class="course-card" data-reveal="tilt-in" data-reveal-index="5">
+      <div class="course-glow"></div>
+      <div class="course-top">
+        <div class="course-icon ci-6"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/><path d="M7 9l3 3-3 3M13 15h4"/></svg></div>
+        <span class="course-tag">Advanced</span>
+      </div>
+      <h3>Data Science</h3>
+      <p class="course-desc">Deep learning, NLP and computer vision, deployed as real applications.</p>
+      <div class="course-stack">
+        <span>Deep Learning</span><span>NLP</span><span>TensorFlow</span><span>Scikit Learn</span>
+      </div>
+     <div class="course-meta">
+        <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>6 Months</div>
+        <div><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>10 Projects</div>
+        <div><svg viewBox="0 0 24 24"><path d="M12 2l9 4.5v9L12 20l-9-4.5v-9L12 2Z"/></svg>Certified</div>
+      </div>
+      <div class="course-card-actions">
+        <button type="button" class="btn btn-demo" data-video-demo="static/videos/Data Science Introduction.mp4" data-video-title="Data Science — Course Preview">
+          <svg viewBox="0 0 24 24" width="15" height="15"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5-6-3.5Z" fill="currentColor" stroke="none"/></svg>
+          Watch Demo
+        </button>
+        <button type="button" class="btn btn-card" data-enroll-trigger="full-stack-python">Enroll Interest <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+    </article>
+
+  </div>
+</section>
+<!-- ============ WHY LEARNERS CHOOSE GO.VARLIN ============ -->
+<section class="why" id="why">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">The Full System</span>
+    <h2>Why learners choose <span class="text-gradient">Go.Varlin</span></h2>
+    <p>Not just video lectures. A complete system to get you from learner to hired.</p>
+  </div>
+
+  <div class="feature-grid">
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="0"><div class="feature-icon">👨‍🏫</div><h4>Industry Mentors</h4><p>Learn from engineers currently working at top product and service companies.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="60"><div class="feature-icon">🧪</div><h4>Live Projects</h4><p>Ship real, portfolio-worthy projects — not disposable toy assignments.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="120"><div class="feature-icon">🎤</div><h4>Mock Interviews</h4><p>Practice with structured mock interviews until the real one feels easy.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="180"><div class="feature-icon">📄</div><h4>Resume Building</h4><p>A resume rebuilt around outcomes recruiters actually search for.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="240"><div class="feature-icon">🏢</div><h4>Internships</h4><p>Verified internships that convert into full-time offers.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="300"><div class="feature-icon">🧭</div><h4>Career Guidance</h4><p>1:1 guidance on the track, role and companies that fit your goals.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="360"><div class="feature-icon">🎯</div><h4>Placement Support</h4><p>Dedicated placement cell working your applications until you're hired.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="420"><div class="feature-icon">🧩</div><h4>Coding Challenges</h4><p>Weekly challenges that keep your problem-solving sharp.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="480"><div class="feature-icon">♾️</div><h4>Lifetime Access</h4><p>Course content and updates, yours to revisit whenever you need.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="540"><div class="feature-icon">💬</div><h4>Doubt Support</h4><p>Get unstuck fast with mentor-backed doubt resolution.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="600"><div class="feature-icon">📜</div><h4>Certificates</h4><p>Industry-recognised certification for every program you complete.</p></div>
+    <div class="feature-card" data-aos="zoom-in" data-aos-delay="660"><div class="feature-icon">🌐</div><h4>Community</h4><p>A standing network of alumni, mentors and hiring partners.</p></div>
+  </div>
+</section>
+</main>
+
+<!-- ============ FOOTER (brand + social only — no outbound page links) ============ -->
+<footer class="footer footer-minimal">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#home" class="brand">
+        <span class="brand-text">G<span class="brand-orb"><span class="brand-orb-core"></span></span><span class="brand-dot">.</span>Varlin</span>
+      </a>
+      <p>Practical, mentor-led learning with a straight line to placement.</p>
+      <div class="social-icons">
+        <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M4.98 3.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4ZM3 8.98h4V21H3V8.98ZM9 8.98h3.8v1.7h.05c.53-1 1.83-2 3.77-2 4.03 0 4.78 2.5 4.78 5.86V21h-4v-5.5c0-1.3-.02-3-1.86-3-1.86 0-2.15 1.4-2.15 2.9V21H9V8.98Z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l6 3-6 3V9Z" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M22 5.9c-.7.3-1.5.6-2.3.7.8-.5 1.4-1.3 1.7-2.3-.8.5-1.7.8-2.6 1a4 4 0 0 0-6.9 3.6A11.4 11.4 0 0 1 3 4.9a4 4 0 0 0 1.2 5.3 4 4 0 0 1-1.8-.5 4 4 0 0 0 3.2 4 4 4 0 0 1-1.8.1 4 4 0 0 0 3.7 2.8A11.4 11.4 0 0 1 2 19a11.4 11.4 0 0 0 6.2 1.8c7.4 0 11.5-6.2 11.5-11.6v-.5c.8-.6 1.5-1.3 2-2.1Z"/></svg></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 Go.Varlin. All rights reserved.</p>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
+{% load static %}
+
+<!-- Scripts -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+<script src="{% static 'js/course-data.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/animation.js' %}"></script>
+<script src="{% static 'js/video-modal.js' %}"></script>
+<script src="{% static 'js/enroll-modal.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load dashboard_extras %}
+{% load static %}
+{% block title %}Placement Hub{% endblock %}
+{% block breadcrumb %}<span>/ Placement Hub</span>{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/dashboard/placements.css' %}">{% endblock %}
+
+{% block content %}
+<div class="lms-panel-head">
+  <h2>Placement Hub</h2>
+  <p>Openings matched to your enrolled tracks, your application tracker and mock interviews.</p>
+</div>
+
+<div class="lms-stat-grid four">
+  <div class="lms-stat-card"><div class="stat-label">Applied Jobs</div><div class="stat-num">{{ applications|length }}</div></div>
+  <div class="lms-stat-card"><div class="stat-label">Interviews Scheduled</div><div class="stat-num">{{ mock_interviews|length }}</div></div>
+  <div class="lms-stat-card"><div class="stat-label">Resume Score</div><div class="stat-num">78<span class="unit">/100</span></div></div>
+  <div class="lms-stat-card"><div class="stat-label">Offers</div><div class="stat-num">{{ offers_count }}</div></div>
+</div>
+
+<h3 class="lms-section-title">Job Openings</h3>
+<div class="lms-card-grid">
+  {% for job in openings %}
+  <div class="glass-card job-card">
+    <div class="job-card-top">
+      <div><h4>{{ job.company }}</h4><span class="mentor">{{ job.role }}</span></div>
+      <span class="job-status {{ job.status }}">{{ job.get_status_display }}</span>
+    </div>
+    <div class="job-meta"><span>{{ job.location }}</span><b>{{ job.package }}</b></div>
+    <button class="btn-sm {% if job.id in applied_ids %}done{% else %}primary{% endif %}" data-apply="{{ job.id }}" {% if job.status == 'closed' %}disabled{% endif %}>
+      {% if job.id in applied_ids %}✓ Applied{% else %}Apply Now{% endif %}
+    </button>
+  </div>
+  {% empty %}<p class="lms-empty-line">No openings matched to your courses yet.</p>{% endfor %}
+</div>
+
+<h3 class="lms-section-title">Application Tracker</h3>
+<div class="practice-table">
+  <div class="practice-row practice-head"><span>Company</span><span>Role</span><span>Status</span><span>Applied</span><span>Interview</span></div>
+  {% for app in applications %}
+  <div class="practice-row">
+    <span class="prob-title">{{ app.job.company }}</span>
+    <span>{{ app.job.role }}</span>
+    <span class="badge-tag status-{{ app.status }}">{{ app.get_status_display }}</span>
+    <span>{{ app.applied_at|date:"M j" }}</span>
+    <span>{% if app.interview_at %}{{ app.interview_at|date:"M j, g:i A" }}{% else %}—{% endif %}</span>
+  </div>
+  {% empty %}<p class="lms-empty-line">You haven't applied to anything yet.</p>{% endfor %}
+</div>
+
+<h3 class="lms-section-title">Mock Interviews</h3>
+<div class="lms-list">
+  {% for mi in mock_interviews %}
+  <div class="glass-row">
+    <span class="row-accent"></span>
+    <div class="row-main"><h4>{{ mi.track }}</h4><span>{{ mi.scheduled_at|date:"D, M j · g:i A" }}</span></div>
+    {% if mi.feedback_score %}<span class="badge-tag status-reviewed">{{ mi.feedback_score }}/100</span>{% endif %}
+  </div>
+  {% empty %}<p class="lms-empty-line">No mock interviews booked. <button class="btn-sm primary" id="bookMockBtn">Book one →</button></p>{% endfor %}
+</div>
+{% endblock %}
+{% block extra_js %}<script src="{% static 'js/dashboard/placements.js' %}"></script>{% endblock %}

@@ -1,0 +1,130 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load static %}
+{% block title %}Overview{% endblock %}
+{% block breadcrumb %}<span>/ Overview</span>{% endblock %}
+
+{% block content %}
+<section class="lms-welcome">
+  <div>
+    <h1>Welcome back, {{ request.user.first_name|default:request.user.username }} 👋</h1>
+    <p>Here's how your learning, practice and placement progress stand today.</p>
+  </div>
+  <div class="lms-welcome-actions">
+    <a href="{% url 'dashboard:my_learning' %}" class="btn-primary">Resume Learning</a>
+  </div>
+</section>
+
+<section class="lms-stat-grid">
+  <div class="lms-stat-card">
+    <div class="stat-label">Today's Progress</div>
+    <div class="stat-num">{{ today_events|length }} <span class="unit">tasks</span></div>
+    <div class="stat-track"><div class="stat-fill" style="width:45%"></div></div>
+  </div>
+  <div class="lms-stat-card">
+    <div class="stat-label">Overall Progress</div>
+    <div class="stat-num">{{ overall_progress }}<span class="unit">%</span></div>
+    <div class="stat-track"><div class="stat-fill accent-success" style="width:{{ overall_progress }}%"></div></div>
+  </div>
+  <div class="lms-stat-card">
+    <div class="stat-label">Weekly Learning Streak</div>
+    <div class="stat-num">🔥 5 <span class="unit">days</span></div>
+    <div class="streak-dots">
+      <span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="lms-stat-card">
+    <div class="stat-label">Certificates Earned</div>
+    <div class="stat-num">{{ recent_certs|length }}</div>
+    <a href="{% url 'dashboard:certificates' %}" class="stat-link">View all →</a>
+  </div>
+</section>
+
+<div class="lms-two-col">
+  <div class="lms-col-main">
+
+    <h2 class="lms-section-title">Continue Learning <a href="{% url 'dashboard:my_learning' %}" class="see-all">See all →</a></h2>
+    <div class="lms-card-grid">
+      {% for e in continue_learning %}
+      <a href="{% url 'dashboard:course_player' e.course.slug %}" class="glass-card course-card">
+        <div class="course-card-head">
+          <span class="course-icon">{{ e.course.icon }}</span>
+          <div><h4>{{ e.course.name }}</h4><span class="mentor">{{ e.course.mentor }}</span></div>
+        </div>
+        <div class="progress-row"><span>{{ e.progress_pct }}% complete</span><span>{{ e.last_lesson|default:"Start now" }}</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:{{ e.progress_pct }}%"></div></div>
+      </a>
+      {% empty %}
+      <p class="lms-empty-line">No enrolled courses yet.</p>
+      {% endfor %}
+    </div>
+
+    <h2 class="lms-section-title">Upcoming Live Classes <a href="{% url 'dashboard:calendar' %}" class="see-all">Full schedule →</a></h2>
+    <div class="lms-list">
+      {% for c in upcoming_classes %}
+      <div class="glass-row">
+        <span class="row-accent"></span>
+        <div class="row-main"><h4>{{ c.title }}</h4><span>{{ c.starts_at|date:"D, M j · g:i A" }}</span></div>
+        <span class="badge-tag live">Live</span>
+      </div>
+      {% empty %}<p class="lms-empty-line">No live classes scheduled.</p>{% endfor %}
+    </div>
+
+    <h2 class="lms-section-title">Assignments Due <a href="{% url 'dashboard:assignments' %}" class="see-all">View all →</a></h2>
+    <div class="lms-list">
+      {% for a in assignments_due %}
+      <div class="glass-row">
+        <span class="row-accent warn"></span>
+        <div class="row-main"><h4>{{ a.title }}</h4><span>{{ a.course.name }} · Due {{ a.due_date|date:"M j" }}</span></div>
+        <a href="{% url 'dashboard:assignments' %}" class="btn-sm">Open</a>
+      </div>
+      {% empty %}<p class="lms-empty-line">Nothing due — you're on track.</p>{% endfor %}
+    </div>
+
+    <h2 class="lms-section-title">Practice Problems <a href="{% url 'dashboard:practice' %}" class="see-all">Practice now →</a></h2>
+    <div class="lms-chip-row">
+      {% for p in practice_daily %}
+      <a href="{% url 'dashboard:practice' %}" class="chip-card difficulty-{{ p.difficulty }}">
+        <span>{{ p.title }}</span><small>{{ p.topic }} · {{ p.get_difficulty_display }}</small>
+      </a>
+      {% empty %}<p class="lms-empty-line">Daily challenge coming soon.</p>{% endfor %}
+    </div>
+  </div>
+
+  <aside class="lms-col-side">
+    <div class="glass-card">
+      <h3 class="side-title">Quick Actions</h3>
+      <div class="quick-actions">
+        <a href="{% url 'dashboard:profile' %}" class="quick-action"><span>📄</span>Resume Builder</a>
+        <a href="{% url 'dashboard:placements' %}" class="quick-action"><span>🎤</span>Mock Interview</a>
+        <a href="{% url 'dashboard:community' %}" class="quick-action"><span>🤖</span>AI Assistant</a>
+      </div>
+    </div>
+
+    <div class="glass-card">
+      <h3 class="side-title">Leaderboard</h3>
+      <ol class="leaderboard">
+        <li><span class="rank">1</span> Ayush B. <b>2,410 pts</b></li>
+        <li><span class="rank">2</span> Sharana B. <b>2,180 pts</b></li>
+        <li class="me"><span class="rank">7</span> You <b>1,340 pts</b></li>
+      </ol>
+    </div>
+
+    <div class="glass-card">
+      <h3 class="side-title">Latest Announcements</h3>
+      <ul class="announce-list">
+        {% for post in announcements %}<li><b>{{ post.title }}</b><span>{{ post.created_at|timesince }} ago</span></li>
+        {% empty %}<li class="muted">No announcements right now.</li>{% endfor %}
+      </ul>
+    </div>
+
+    <div class="glass-card">
+      <h3 class="side-title">Placement Updates</h3>
+      <ul class="announce-list">
+        {% for post in placement_updates %}<li><b>{{ post.title }}</b><span>{{ post.created_at|timesince }} ago</span></li>
+        {% empty %}<li class="muted">Nothing new yet.</li>{% endfor %}
+      </ul>
+      <a href="{% url 'dashboard:placements' %}" class="see-all block">Open Placement Hub →</a>
+    </div>
+  </aside>
+</div>
+{% endblock %}

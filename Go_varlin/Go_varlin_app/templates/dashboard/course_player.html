@@ -1,0 +1,75 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load static %}
+{% block title %}{{ course.name }}{% endblock %}
+{% block breadcrumb %}<a href="{% url 'dashboard:my_learning' %}">/ My Learning</a><span>/ {{ course.name }}</span>{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/dashboard/course-player.css' %}">{% endblock %}
+
+{% block content %}
+<div class="player-wrap">
+
+  <aside class="player-curriculum">
+    <h3>{{ course.name }}</h3>
+    {% for module in modules %}
+    <div class="curriculum-module">
+      <div class="curriculum-module-title">{{ module.title }}</div>
+      {% for l in module.lessons.all %}
+      <a href="{% url 'dashboard:course_player_lesson' course.slug l.slug %}"
+         class="curriculum-lesson {% if lesson.id == l.id %}active{% endif %} {% if l.id in completed_ids %}done{% endif %}">
+        <span class="lesson-kind">{% if l.kind == 'video' %}▶{% elif l.kind == 'quiz' %}❓{% elif l.kind == 'assignment' %}📝{% else %}⬇{% endif %}</span>
+        <span class="lesson-title">{{ l.title }}</span>
+        <span class="lesson-dur">{{ l.duration_minutes }}m</span>
+      </a>
+      {% endfor %}
+    </div>
+    {% empty %}
+    <p class="lms-empty-line">Curriculum coming soon.</p>
+    {% endfor %}
+  </aside>
+
+  <section class="player-main">
+    {% if lesson %}
+    <div class="player-video">
+      {% if lesson.video_url %}
+      <iframe src="{{ lesson.video_url }}" title="{{ lesson.title }}" allowfullscreen></iframe>
+      {% else %}
+      <div class="player-video-placeholder">▶ {{ lesson.title }}</div>
+      {% endif %}
+    </div>
+
+    <div class="player-tabs">
+      <button class="player-tab active" data-tab="notes">Notes</button>
+      <button class="player-tab" data-tab="resources">Resources</button>
+      <button class="player-tab" data-tab="discussion">Discussion</button>
+      <button class="player-tab" data-tab="instructor">Instructor</button>
+    </div>
+
+    <div class="player-tab-panel active" data-tab-panel="notes">
+      <textarea placeholder="Jot down notes for this lesson…" rows="6"></textarea>
+    </div>
+    <div class="player-tab-panel" data-tab-panel="resources">
+      <ul class="resource-list"><li>📎 Lesson slides (PDF)</li><li>📎 Starter code (ZIP)</li></ul>
+    </div>
+    <div class="player-tab-panel" data-tab-panel="discussion">
+      <p class="lms-empty-line">Ask a question about this lesson — mentors reply within 24 hrs.</p>
+    </div>
+    <div class="player-tab-panel" data-tab-panel="instructor">
+      <div class="glass-row"><span class="course-icon">👤</span><div class="row-main"><h4>{{ course.mentor }}</h4><span>Lead mentor, {{ course.category }}</span></div></div>
+    </div>
+
+    <div class="player-footer">
+      <span class="completion-status" id="completionStatus">
+        {% if lesson.id in completed_ids %}✅ Completed{% else %}Not completed{% endif %}
+      </span>
+      <div class="player-footer-actions">
+        {% if prev_lesson %}<a href="{% url 'dashboard:course_player_lesson' course.slug prev_lesson.slug %}" class="btn-sm">← Previous</a>{% endif %}
+        <button class="btn-sm primary" id="markCompleteBtn" data-lesson="{{ lesson.id }}">Mark as Complete</button>
+        {% if next_lesson %}<a href="{% url 'dashboard:course_player_lesson' course.slug next_lesson.slug %}" class="btn-sm primary">Next Lesson →</a>{% endif %}
+      </div>
+    </div>
+    {% else %}
+    <p class="lms-empty-line">This course doesn't have lessons yet.</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}
+{% block extra_js %}<script src="{% static 'js/dashboard/course-player.js' %}"></script>{% endblock %}

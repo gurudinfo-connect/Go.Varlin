@@ -1,0 +1,37 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% block title %}Notifications{% endblock %}
+{% block breadcrumb %}<span>/ Notifications</span>{% endblock %}
+
+{% block content %}
+<div class="lms-panel-head">
+  <h2>Notifications</h2>
+  <p>Everything that needs your attention, in one place.</p>
+</div>
+
+<div class="practice-filters">
+  <div class="filter-group" data-filter="read">
+    <button class="filter-chip active" data-value="all">All</button>
+    <button class="filter-chip" data-value="unread">Unread</button>
+    <button class="filter-chip" data-value="read">Read</button>
+  </div>
+  <div class="filter-group" data-filter="category">
+    <button class="filter-chip active" data-value="all">All types</button>
+    <button class="filter-chip" data-value="assignments">Assignments</button>
+    <button class="filter-chip" data-value="placements">Placements</button>
+    <button class="filter-chip" data-value="courses">Courses</button>
+    <button class="filter-chip" data-value="system">System Updates</button>
+  </div>
+</div>
+
+<div class="lms-list">
+  {% for n in items %}
+  <div class="glass-row notif-row {% if not n.is_read %}unread{% endif %}" data-read="{% if n.is_read %}read{% else %}unread{% endif %}" data-category="{{ n.category }}">
+    <span class="row-accent {% if not n.is_read %}accent{% endif %}"></span>
+    <div class="row-main"><h4>{{ n.message }}</h4><span>{{ n.created_at|timesince }} ago</span></div>
+    <span class="badge-tag">{{ n.get_category_display }}</span>
+  </div>
+  {% empty %}
+  <p class="lms-empty-line">You're all caught up.</p>
+  {% endfor %}
+</div>
+{% endblock %}

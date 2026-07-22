@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>No Enrollments — Go.Varlin</title>
+<script>
+  (function () {
+    var saved = localStorage.getItem('govarlin-lms-theme');
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+  })();
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/dashboard/dashboard.css' %}">
+</head>
+<body>
+  <div class="lms-empty-state">
+    <div class="lms-empty-card">
+      <div class="lms-empty-icon">🎓</div>
+      <h1>You haven't enrolled in any course yet.</h1>
+      <p>Once you enroll in a Go.Varlin course, your dashboard, live classes, practice, assignments and certificates all unlock here.</p>
+      <a href="{% url 'index' %}" class="btn-primary-lg">Browse Courses</a>
+    </div>
+  </div>
+</body>
+</html>

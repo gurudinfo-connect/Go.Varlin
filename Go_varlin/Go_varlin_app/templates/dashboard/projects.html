@@ -1,0 +1,34 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% block title %}Projects{% endblock %}
+{% block breadcrumb %}<span>/ Projects</span>{% endblock %}
+
+{% block content %}
+<div class="lms-panel-head">
+  <h2>Projects</h2>
+  <p>Mini, major and industry projects — submit your GitHub repo for evaluation.</p>
+</div>
+
+{% regroup projects by kind as project_groups %}
+{% for group in project_groups %}
+<h3 class="lms-section-title">{{ group.grouper|title }} Projects</h3>
+<div class="lms-card-grid">
+  {% for p in group.list %}
+  <div class="glass-card">
+    <h4>{{ p.title }}</h4>
+    <p class="mentor">{{ p.course.name|default:"General" }}</p>
+    {% if p.github_url %}<a href="{{ p.github_url }}" class="btn-sm" target="_blank" rel="noopener">🔗 GitHub Repo</a>{% endif %}
+    <div class="assignment-actions">
+      {% if p.evaluated %}
+      <span class="badge-tag status-reviewed">Score: {{ p.score }}/100</span>
+      {% else %}
+      <span class="badge-tag status-pending">Awaiting Evaluation</span>
+      <button class="btn-sm primary" data-submit-project="{{ p.id }}">Submit GitHub Link</button>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% empty %}
+<p class="lms-empty-line">No projects assigned yet — they unlock as you progress through your course.</p>
+{% endfor %}
+{% endblock %}

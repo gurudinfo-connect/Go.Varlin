@@ -1,0 +1,36 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% block title %}Calendar{% endblock %}
+{% block breadcrumb %}<span>/ Calendar</span>{% endblock %}
+
+{% block content %}
+<div class="lms-panel-head">
+  <h2>Learning Calendar</h2>
+  <p>Live classes, assignment deadlines, tests, interviews, events and your personal schedule.</p>
+</div>
+
+<div class="practice-filters">
+  <div class="filter-group" data-filter="kind">
+    <button class="filter-chip active" data-value="all">All</button>
+    <button class="filter-chip" data-value="live_class">Live Classes</button>
+    <button class="filter-chip" data-value="assignment_due">Assignments</button>
+    <button class="filter-chip" data-value="test">Tests</button>
+    <button class="filter-chip" data-value="interview">Interviews</button>
+    <button class="filter-chip" data-value="event">Events</button>
+    <button class="filter-chip" data-value="personal">Personal</button>
+  </div>
+</div>
+
+<div class="lms-list">
+  {% for e in events %}
+  <div class="glass-row" data-kind="{{ e.kind }}">
+    <span class="row-accent {% if e.kind == 'assignment_due' %}warn{% elif e.kind == 'interview' %}danger{% endif %}"></span>
+    <div class="row-main"><h4>{{ e.title }}</h4><span>{{ e.starts_at|date:"D, M j, Y · g:i A" }}</span></div>
+    <span class="badge-tag">{{ e.get_kind_display }}</span>
+  </div>
+  {% empty %}
+  <p class="lms-empty-line">Nothing on your calendar yet.</p>
+  {% endfor %}
+</div>
+
+<button class="btn-sm primary" id="addPersonalEventBtn">+ Add Personal Event</button>
+{% endblock %}

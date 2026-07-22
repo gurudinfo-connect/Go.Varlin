@@ -1,0 +1,55 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% block title %}Settings{% endblock %}
+{% block breadcrumb %}<span>/ Settings</span>{% endblock %}
+
+{% block content %}
+<div class="lms-panel-head">
+  <h2>Settings</h2>
+  <p>Account, appearance and notification preferences.</p>
+</div>
+
+<div class="glass-card settings-card">
+  <h3 class="side-title">Account</h3>
+  <div class="settings-row"><div><h5>Email</h5><span>{{ request.user.email }}</span></div><a href="#" class="btn-sm">Change</a></div>
+  <div class="settings-row"><div><h5>Password</h5><span>Last changed 3 months ago</span></div><a href="#" class="btn-sm">Update Password</a></div>
+  <div class="settings-row"><div><h5>Language</h5><span>{{ settings.language }}</span></div>
+    <select class="btn-sm" id="languageSelect"><option>English</option><option>Hindi</option><option>Kannada</option></select>
+  </div>
+</div>
+
+<div class="glass-card settings-card">
+  <h3 class="side-title">Appearance</h3>
+  <div class="settings-row">
+    <div><h5>Dark Mode</h5><span>Switch the whole dashboard to a dark theme.</span></div>
+    <label class="switch"><input type="checkbox" id="settingsThemeToggle" {% if settings.dark_mode %}checked{% endif %}><span class="slider"></span></label>
+  </div>
+</div>
+
+<div class="glass-card settings-card">
+  <h3 class="side-title">Notifications</h3>
+  <div class="settings-row">
+    <div><h5>Email Notifications</h5><span>Class reminders and placement updates by email.</span></div>
+    <label class="switch"><input type="checkbox" id="settingsEmailToggle" {% if settings.email_notifications %}checked{% endif %}><span class="slider"></span></label>
+  </div>
+  <div class="settings-row">
+    <div><h5>SMS Alerts</h5><span>Get a text before every live class starts.</span></div>
+    <label class="switch"><input type="checkbox" id="settingsSmsToggle" {% if settings.sms_alerts %}checked{% endif %}><span class="slider"></span></label>
+  </div>
+  <div class="settings-row">
+    <div><h5>Push Notifications</h5><span>Browser alerts for pending actions.</span></div>
+    <label class="switch"><input type="checkbox" id="settingsPushToggle" {% if settings.push_notifications %}checked{% endif %}><span class="slider"></span></label>
+  </div>
+</div>
+
+<div class="glass-card settings-card">
+  <h3 class="side-title">Privacy</h3>
+  <div class="settings-row"><div><h5>Profile visibility</h5><span>Visible to mentors and placement partners.</span></div><a href="#" class="btn-sm">Manage</a></div>
+</div>
+
+<div class="glass-card settings-card danger-zone">
+  <h3 class="side-title">Danger Zone</h3>
+  <div class="settings-row"><div><h5>Delete Account</h5><span>Permanently removes your profile, enrollments and history.</span></div>
+    <button class="btn-sm danger" id="deleteAccountBtn">Delete Account</button>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% block title %}Certificates{% endblock %}
+{% block breadcrumb %}<span>/ Certificates</span>{% endblock %}
+
+{% block content %}
+<div class="lms-panel-head">
+  <h2>Certificates</h2>
+  <p>Issued on 100% course completion. Verify any certificate with its unique code.</p>
+</div>
+
+<h3 class="lms-section-title">Issued Certificates</h3>
+<div class="lms-card-grid">
+  {% for c in certificates %}
+  <div class="glass-card cert-card">
+    <div class="cert-medal">🏅</div>
+    <h4>{{ c.course.name }}</h4>
+    <p class="mentor">Issued {{ c.issued_at|date:"M j, Y" }} · Code {{ c.verify_code|stringformat:"s"|slice:":8" }}</p>
+    <div class="assignment-actions">
+      <button class="btn-sm primary" data-preview-cert="{{ c.id }}">Preview</button>
+      <button class="btn-sm" data-download-cert="{{ c.id }}">⬇ Download</button>
+      <button class="btn-sm" data-share-cert="{{ c.id }}">Share on LinkedIn</button>
+    </div>
+  </div>
+  {% empty %}
+  <p class="lms-empty-line">No certificates issued yet.</p>
+  {% endfor %}
+</div>
+
+<h3 class="lms-section-title">In Progress</h3>
+<div class="lms-card-grid">
+  {% for e in in_progress %}
+  <div class="glass-card cert-card locked">
+    <div class="cert-medal">🔒</div>
+    <h4>{{ e.course.name }}</h4>
+    <p class="mentor">{{ e.progress_pct }}% complete — unlocks at 100%.</p>
+  </div>
+  {% empty %}<p class="lms-empty-line">Nothing in progress.</p>{% endfor %}
+</div>
+
+<h3 class="lms-section-title">Verify a Certificate</h3>
+<div class="glass-card verify-box">
+  <input type="text" id="verifyCode" placeholder="Paste certificate code…">
+  <button class="btn-sm primary" id="verifyBtn">Verify</button>
+</div>
+{% endblock %}

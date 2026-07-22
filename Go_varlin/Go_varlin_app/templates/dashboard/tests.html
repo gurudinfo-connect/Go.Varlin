@@ -1,0 +1,35 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% block title %}Tests{% endblock %}
+{% block breadcrumb %}<span>/ Tests</span>{% endblock %}
+
+{% block content %}
+<div class="lms-panel-head">
+  <h2>Tests</h2>
+  <p>Mock tests, coding tests, aptitude, technical quizzes, resume and interview tests.</p>
+</div>
+
+<div class="lms-stat-grid four">
+  <a href="#" class="lms-stat-card link"><div class="stat-label">Mock Tests</div><div class="stat-num">Start →</div></a>
+  <a href="#" class="lms-stat-card link"><div class="stat-label">Coding Tests</div><div class="stat-num">Start →</div></a>
+  <a href="#" class="lms-stat-card link"><div class="stat-label">Aptitude</div><div class="stat-num">Start →</div></a>
+  <a href="#" class="lms-stat-card link"><div class="stat-label">Technical Quiz</div><div class="stat-num">Start →</div></a>
+  <a href="#" class="lms-stat-card link"><div class="stat-label">Resume Test</div><div class="stat-num">Start →</div></a>
+  <a href="#" class="lms-stat-card link"><div class="stat-label">Interview Test</div><div class="stat-num">Start →</div></a>
+</div>
+
+<h3 class="lms-section-title">Score History</h3>
+<div class="practice-table">
+  <div class="practice-row practice-head"><span>Test</span><span>Type</span><span>Score</span><span>Rank</span><span>Date</span></div>
+  {% for t in attempts %}
+  <div class="practice-row">
+    <span class="prob-title">{{ t.name }}</span>
+    <span>{{ t.get_kind_display }}</span>
+    <span class="difficulty-tag {% if t.score_pct >= 75 %}easy{% elif t.score_pct >= 50 %}medium{% else %}hard{% endif %}">{{ t.score_pct }}%</span>
+    <span>{% if t.rank %}#{{ t.rank }}{% else %}—{% endif %}</span>
+    <span>{{ t.taken_at|date:"M j, Y" }}</span>
+  </div>
+  {% empty %}
+  <p class="lms-empty-line">No tests attempted yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

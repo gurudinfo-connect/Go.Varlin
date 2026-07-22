@@ -1,0 +1,208 @@
+{% load static %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In — Go.Varlin</title>
+<meta name="description" content="Sign in to your Go.Varlin account to continue your courses, track progress, and access placement support.">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- AOS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+<!-- Styles -->
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/animations.css' %}">
+<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+<link rel="stylesheet" href="{% static 'css/auth-pages.css' %}">
+<link rel="stylesheet" href="{% static 'css/global-responsive.css' %}">
+</head>
+<body>
+
+<!-- ============ PAGE LOADER ============ -->
+<div class="loader" id="loader">
+  <div class="loader-mark">
+    <span class="loader-bracket">&lt;</span>
+    <span class="loader-dot"></span>
+    <span class="loader-bracket">/&gt;</span>
+  </div>
+  <div class="loader-word">Go.Varlin</div>
+  <div class="loader-bar"><span></span></div>
+</div>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- ============ NAVBAR ============ -->
+<header class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="{% url 'welcome' %}" class="brand">
+    <span class="brand-text">
+        G<span class="brand-orb">
+            <span class="brand-orb-core"></span>
+        </span>
+        <span class="brand-dot">.</span>Varlin
+    </span>
+</a>
+
+    <nav class="nav-links" id="navLinks">
+      <span class="nav-indicator" id="navIndicator"></span>
+      <a href="{% url 'welcome' %}">Home</a>
+      <a href="{% url 'contact' %}" class="active">Contact</a>
+    </nav>
+</header>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+ <a href="{% url 'welcome' %}">Home</a>
+<a href="{% url 'hire_connect' %}">Hire Connect</a>
+<a href="{% url 'contact' %}">Contact</a>
+  <div class="mobile-menu-actions" data-auth-slot-mobile>
+  </div>
+</div>
+
+<main>
+<section class="auth-page">
+  <div class="auth-shell">
+
+    <!-- ============ LEFT: BRAND / STORY PANEL ============ -->
+    <aside class="auth-aside">
+      <div class="hero-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="grid-overlay"></div>
+      </div>
+
+      <div class="auth-aside-inner">
+        <a href="{% url 'index' %}" class="auth-brand">
+          <span class="brand-mark"><svg viewBox="0 0 32 32" fill="none"><path d="M16 2L29 9V23L16 30L3 23V9L16 2Z" stroke="url(#gradI)" stroke-width="2"/><path d="M16 12L22 15.5V19L16 22.5L10 19V15.5L16 12Z" fill="url(#gradI)"/><defs><linearGradient id="gradI" x1="3" y1="2" x2="29" y2="30"><stop stop-color="#2563EB"/><stop offset="1" stop-color="#14B8A6"/></linearGradient></defs></svg></span>
+          Go<span class="brand-dot">.</span>Varlin
+        </a>
+
+        <div class="auth-story" data-aos="fade-up">
+          <span class="auth-eyebrow">Welcome Back</span>
+          <h1>Pick up right where you <span class="text-gradient">left off.</span></h1>
+          <p>Sign in to continue your cohort, track your project milestones, and stay on the path to placement.</p>
+        </div>
+
+        <div class="auth-points" data-aos="fade-up" data-aos-delay="100">
+          <div class="auth-point">
+            <span class="auth-point-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+            <div class="auth-point-text">
+              <h4>Live, mentor-led classes</h4>
+              <p>Learn directly from senior industry architects.</p>
+            </div>
+          </div>
+          <div class="auth-point">
+            <span class="auth-point-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+            <div class="auth-point-text">
+              <h4>Real projects, real portfolio</h4>
+              <p>Ship production-grade builds before you graduate.</p>
+            </div>
+          </div>
+          <div class="auth-point">
+            <span class="auth-point-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+            <div class="auth-point-text">
+              <h4>Guaranteed placement support</h4>
+              <p>Hire Connect puts you in front of partner companies.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-quote" data-aos="fade-up" data-aos-delay="150">
+        <p>"Go.Varlin's mentors and the Hire Connect program got me from zero projects to a full-stack offer in four months."</p>
+        <div class="auth-quote-person">
+          <span class="auth-quote-avatar">RS</span>
+          <div>
+            <h5>Riya Sharma</h5>
+            <span>Full Stack Java, Batch of 2026</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ============ RIGHT: SIGNIN FORM ============ -->
+    <div class="auth-main">
+      <div class="auth-card" data-aos="fade-up">
+        <div class="auth-card-head">
+          <h2>Sign in to your account</h2>
+        </div>
+
+        <div class="auth-social-row">
+          <button type="button" class="auth-social-btn">
+            <svg viewBox="0 0 24 24"><path fill="#EA4335" d="M12 10.2v3.9h5.5c-.24 1.4-1.7 4.1-5.5 4.1-3.3 0-6-2.7-6-6.2s2.7-6.2 6-6.2c1.9 0 3.1.8 3.9 1.5l2.6-2.5C16.8 3.2 14.6 2.2 12 2.2 6.9 2.2 2.7 6.4 2.7 12S6.9 21.8 12 21.8c6.9 0 9.6-4.8 9.6-7.3 0-.5 0-.9-.1-1.3H12Z"/></svg>
+            <a href="{% provider_login_url 'google' %}" class="auth-social-btn">Google</a>
+          </button>
+          <button type="button" class="auth-social-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.9c-2.8.6-3.4-1.3-3.4-1.3-.4-1.1-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 2.9.9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.2-4.6-5.2 0-1.1.4-2 1-2.8-.1-.3-.5-1.4.1-2.9 0 0 .8-.3 2.7 1a9 9 0 0 1 4.9 0c1.9-1.3 2.7-1 2.7-1 .5 1.5.2 2.6.1 2.9.6.7 1 1.7 1 2.8 0 4-2.4 4.9-4.7 5.2.4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg>
+            <a href="{% provider_login_url 'github' %}" class="auth-social-btn">Git Hub</a>
+          </button>
+        </div>
+
+        <div class="auth-divider">or sign in with email</div>
+        {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+        <form id="signinForm" method="POST">
+
+        {% csrf_token %}
+          <div class="auth-field">
+            <label for="siEmail">Email Address</label>
+            <input type="email" id="siEmail" name="username" placeholder="john@email.com" required>
+            <span class="auth-error"></span>
+          </div>
+
+          <div class="auth-field">
+            <label for="siPassword">Password</label>
+            <div class="auth-input-wrap">
+              <input type="password" id="siPassword" name="password" class="pw-input" placeholder="Enter your password" required>
+              <button type="button" class="pw-toggle" data-target="siPassword" aria-label="Show password">
+                <svg class="icon-eye" viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="icon-eye-off" viewBox="0 0 24 24"><path d="M17.94 17.94A10.9 10.9 0 0 1 12 20c-7 0-11-8-11-8a18.6 18.6 0 0 1 5.06-5.94M9.9 4.24A9.1 9.1 0 0 1 12 4c7 0 11 8 11 8a18.6 18.6 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24M1 1l22 22"/></svg>
+              </button>
+            </div>
+            <span class="auth-error"></span>
+          </div>
+
+          <div class="auth-row-between">
+            <label class="auth-check">
+              <input type="checkbox" name="remember">
+              Terms&Condions
+            </label>
+            <a href="#" class="auth-forgot">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="auth-submit">
+            <span class="auth-spinner"></span>
+            <span>Sign In</span>
+          </button>
+        </form>
+
+        <p class="auth-switch">Don't have an account?<a href="{% url 'signup' %}">Create account</a></p>
+      </div>
+    </div>
+
+  </div>
+</section>
+</main>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+<script src="{% static 'js/main.js' %}"></script>
+<!-- <script src="{% static 'js/auth-forms.js' %}"></script> -->
+</body>
+</html>
