@@ -347,24 +347,10 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => revealCards.forEach(c => c.classList.add('in-view')), 3000);
   }
 
-  /* ---------- Card tilt effect ---------- */
-  document.querySelectorAll('.course-card, .feature-card').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const rotateX = ((y / rect.height) - 0.5) * -8;
-      const rotateY = ((x / rect.width) - 0.5) * 8;
-      card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px) scale(1.015)`;
-
-      // Drive the mouse-tracking spotlight gradient (see .course-card::after in style.css)
-      if (card.classList.contains('course-card')){
-        card.style.setProperty('--mx', `${(x / rect.width) * 100}%`);
-        card.style.setProperty('--my', `${(y / rect.height) * 100}%`);
-      }
-    });
-    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
-  });
+  /* ---------- Card tilt effect ----------
+     Now handled by static/js/tilt-3d.js, which applies a fuller
+     CSS-3D tilt (with layered depth + glare) to .course-card,
+     .feature-card and other card grids across the site. */
 
   /* ---------- Particles (hero canvas) ---------- */
   const canvas = document.getElementById('particles');
