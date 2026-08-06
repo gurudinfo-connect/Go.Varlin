@@ -47,6 +47,11 @@ CSRF_TRUSTED_ORIGINS = [
     "https://go-varlin.onrender.com",
 ]
 
+# Belt-and-suspenders alongside SECURE_PROXY_SSL_HEADER above: forces
+# allauth to build https:// links (OAuth redirect_uri, email confirmation
+# links, etc.) regardless of what scheme it thinks the incoming request used.
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+
 
 # Application definition
 
