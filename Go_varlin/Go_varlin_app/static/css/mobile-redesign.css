@@ -62,7 +62,10 @@
   .nav-links, .search-box, .nav-auth-slot{ display:none !important; }
   .nav-actions{ gap:6px; }
   .theme-toggle{ width:38px; height:38px; }
-  .hamburger{ display:flex !important; width:24px; height:18px; }
+  /* Sizing/centering for .hamburger is owned by the single dedicated
+     rule further down this file ("HAMBURGER ICON — VERTICAL CENTERING
+     FIX") so there is only one source of truth for its box model. */
+  .hamburger{ display:flex !important; }
 
   /* ---- Full-width slide-in glass menu ---- */
   .mobile-menu{
@@ -546,47 +549,56 @@
 }
 
 /* ============================================================
-   HAMBURGER ICON — VERTICAL CENTERING FIX (mobile only, ≤768px)
+   HAMBURGER ICON — VERTICAL CENTERING + STYLE FIX (mobile only, ≤768px)
    ------------------------------------------------------------
-   Root cause: the base .hamburger rule (style.css) sets
-   flex-direction:column on a <button> without display:flex, and
-   never resets the browser's default button padding. Because
-   box-sizing defaults to content-box, that default padding adds
-   invisible height below the 3 lines, so they pack toward the
-   top of the button instead of sitting in the vertical center.
-   Fixing it here — desktop (>768px) is untouched, .hamburger is
+   Root cause of the misalignment: the base .hamburger rule
+   (style.css) sets flex-direction:column on a <button> without
+   display:flex, and never resets the browser's default button
+   padding/line-height. That leaves invisible space below the 3
+   lines, so they pack toward the top of the button instead of
+   sitting dead-center. This is the single source of truth for
+   the hamburger's box model on mobile — nothing else in this
+   file or in global-responsive.css should set its width/height.
+   Desktop (>768px) is completely untouched: .hamburger is
    display:none there regardless of this rule.
    ============================================================ */
 @media (max-width:768px){
   .nav-actions{
     display:flex;
-    align-items:center;
-    gap:10px;
+    align-items:center;   /* centerline shared with .theme-toggle */
+    gap:6px;               /* unchanged spacing between the two icons */
   }
 
   .hamburger{
     display:flex !important;
     flex-direction:column;
     align-items:center;
-    justify-content:center;
-    gap:5px;
-    width:44px;              /* ≥44×44 touch target, per WCAG target size */
+    justify-content:center; /* equal space above/below the 3 lines */
+    gap:5px;                 /* original line spacing — unchanged icon size */
+    width:44px;               /* WCAG 2.5.5 ≥44×44 touch target */
     height:44px;
-    padding:0;
+    padding:0;                /* kills the browser's default button padding */
     margin:0;
     border:0;
+    outline:0;
     background:none;
     box-sizing:border-box;
     flex:none;
-    line-height:0;           /* removes button's default line-height offset */
+    line-height:0;            /* removes button's default line-height offset */
     vertical-align:middle;
+    -webkit-tap-highlight-color:transparent;
   }
   .hamburger span{
     display:block;
-    width:24px;
-    height:2px;
+    width:24px;                /* same icon size as before — untouched */
+    height:2px;                 /* same line thickness as before — untouched */
     margin:0;
     flex:none;
+    background:#6B7280 !important; /* premium medium gray, replaces pure black */
+    border-radius:999px;            /* rounded line ends */
+  }
+  [data-theme="dark"] .hamburger span{
+    background:#9CA3AF !important;  /* lighter gray for legibility on dark glass */
   }
   /* Open-state transforms are unchanged — same selectors, same
      translateY/rotate values as style.css — so the animation and
