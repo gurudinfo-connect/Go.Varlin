@@ -31,6 +31,22 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
 ]
 
+# Render (and most PaaS hosts) terminates HTTPS at their edge and forwards
+# the request to this app over plain HTTP, adding an
+# "X-Forwarded-Proto: https" header. Without telling Django to trust that
+# header, request.is_secure() returns False and request.build_absolute_uri()
+# — which allauth uses to build the Google/GitHub OAuth redirect_uri —
+# generates an http:// URL. Google/GitHub then reject it because the
+# console has the https:// version registered, producing exactly the
+# "redirect_uri is not associated with this application" (GitHub) and
+# "Error 400: redirect_uri_mismatch" (Google) errors.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+USE_X_FORWARDED_HOST = True
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://go-varlin.onrender.com",
+]
+
 
 # Application definition
 
