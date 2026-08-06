@@ -544,3 +544,51 @@
   .course-grid{ grid-template-columns:repeat(2,1fr) !important; }
   .footer-top{ grid-template-columns:1fr 1fr !important; }
 }
+
+/* ============================================================
+   HAMBURGER ICON — VERTICAL CENTERING FIX (mobile only, ≤768px)
+   ------------------------------------------------------------
+   Root cause: the base .hamburger rule (style.css) sets
+   flex-direction:column on a <button> without display:flex, and
+   never resets the browser's default button padding. Because
+   box-sizing defaults to content-box, that default padding adds
+   invisible height below the 3 lines, so they pack toward the
+   top of the button instead of sitting in the vertical center.
+   Fixing it here — desktop (>768px) is untouched, .hamburger is
+   display:none there regardless of this rule.
+   ============================================================ */
+@media (max-width:768px){
+  .nav-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .hamburger{
+    display:flex !important;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    width:44px;              /* ≥44×44 touch target, per WCAG target size */
+    height:44px;
+    padding:0;
+    margin:0;
+    border:0;
+    background:none;
+    box-sizing:border-box;
+    flex:none;
+    line-height:0;           /* removes button's default line-height offset */
+    vertical-align:middle;
+  }
+  .hamburger span{
+    display:block;
+    width:24px;
+    height:2px;
+    margin:0;
+    flex:none;
+  }
+  /* Open-state transforms are unchanged — same selectors, same
+     translateY/rotate values as style.css — so the animation and
+     menu-toggle functionality are unaffected by this fix. */
+}
