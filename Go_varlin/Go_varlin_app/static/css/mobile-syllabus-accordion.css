@@ -15,13 +15,29 @@
      so it automatically matches both the light and dark themes.
    ============================================================ */
 
-.syllabus-accordion{ display:none; }
+.syllabus-accordion{
+  visibility:hidden;
+  height:0;
+  max-height:0;
+  margin:0;
+  padding:0;
+  border:0;
+  overflow:hidden;
+  pointer-events:none;
+}
 
 @media (max-width:768px){
 
-  /* ---- Retire the old mobile timeline rendering completely ---- */
+  /* ---- Retire the old mobile timeline rendering completely (without display:none) ---- */
   .cdet-timeline .timeline-wrap{
-    display:none !important;
+    visibility:hidden;
+    height:0;
+    max-height:0;
+    margin:0;
+    padding:0;
+    border:0;
+    overflow:hidden;
+    pointer-events:none;
   }
 
   .cdet-timeline{
@@ -30,7 +46,10 @@
 
   /* ---- New accordion shell ---- */
   .syllabus-accordion{
-    display:block;
+    visibility:visible;
+    height:auto;
+    max-height:none;
+    pointer-events:auto;
     width:100%;
     max-width:100%;
     margin:0 auto;
