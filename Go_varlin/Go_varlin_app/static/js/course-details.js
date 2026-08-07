@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 9l6 6 6-6"/></svg>
           </button>
           <div class="timeline-body">
-            <div class="timeline-topics">${mod.topics.map(t => `<span>${t}</span>`).join('')}</div>
+            <div class="timeline-topics" data-weeks="${mod.weeks}">${mod.topics.map(t => `<span>${t}</span>`).join('')}</div>
           </div>
         </div>
       </div>

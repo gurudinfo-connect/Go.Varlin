@@ -344,11 +344,23 @@
   }
 
   /* ============================================================
-     7b. COURSE-DETAILS SYLLABUS — premium standalone phase cards.
+     7b. COURSE-DETAILS SYLLABUS — dark accordion cards.
      This is a *different* component from .journey above, despite
      sharing .timeline-item/.timeline-card class names. Every rule
      here is scoped under .cdet-timeline so it can never leak onto
-     the homepage journey timeline (or vice versa).
+     the homepage journey timeline (or vice versa). Desktop (>768px)
+     keeps the original light "always open" card styling untouched —
+     none of these rules exist outside this @media block.
+
+     Each phase is a single-open accordion: tap the header row to
+     expand/collapse (native click handler already lives in
+     course-details.js — nothing here changes behaviour, only look).
+     The phase number ("01","02"...) is generated purely with CSS
+     counters from the existing "Phase N" text, and the weeks range
+     is re-read from a data-weeks attribute on .timeline-topics
+     (added in course-details.js, invisible/unused on desktop) so it
+     can be redrawn as a badge *after* the topic list instead of in
+     the header, with zero HTML restructuring.
      ============================================================ */
   .cdet-timeline{ padding:48px 16px 64px; overflow-x:hidden; box-sizing:border-box; }
   .cdet-timeline .section-head h2{ font-size:24px; }
@@ -359,102 +371,123 @@
 
   .cdet-timeline .timeline-list{
     display:flex; flex-direction:column;
-    gap:20px;
+    gap:16px;                              /* card gap */
     width:100%;
+    counter-reset:phaseNum;
     border:none !important; border-radius:0 !important;
     overflow:visible !important; background:transparent !important;
   }
   .cdet-timeline .timeline-item{
+    counter-increment:phaseNum;
     width:100% !important;
     max-width:100%;
     box-sizing:border-box;
   }
   .cdet-timeline .timeline-item + .timeline-item{ border-top:none !important; }
 
+  /* Card shell — fixed dark navy, independent of the site's light/dark
+     theme toggle, matching the reference accordion exactly. */
   .cdet-timeline .timeline-card{
     display:block;
     width:100% !important;
     max-width:100%;
     box-sizing:border-box;
-    border-radius:20px !important;
+    background:#1F2937 !important;
+    border:1px solid #2F3F54 !important;
+    border-radius:18px !important;
     overflow:hidden;
-    box-shadow:0 14px 32px -16px rgba(15,23,42,.22), 0 2px 10px -4px rgba(15,23,42,.10);
+    box-shadow:0 12px 28px -14px rgba(0,0,0,.55), 0 2px 10px -4px rgba(0,0,0,.35);
     transition:transform .2s var(--ease), box-shadow .3s var(--ease);
   }
-  [data-theme="dark"] .cdet-timeline .timeline-card{
-    box-shadow:0 14px 32px -16px rgba(0,0,0,.55), 0 2px 10px -4px rgba(0,0,0,.35);
-  }
-  .cdet-timeline .timeline-card:active{ transform:scale(.97); }
-  .cdet-timeline .timeline-card::before{ display:none !important; }
+  .cdet-timeline .timeline-card:active{ transform:scale(.98); }
+  .cdet-timeline .timeline-card::before{ display:none !important; } /* no left accent bar */
+  .cdet-timeline .timeline-dot{ display:none !important; }           /* no phase circle/connector */
 
-  /* Header: phase badge (top-left) + weeks badge (top-right) + title
-     spanning the full width beneath — achieved without touching the
-     JS markup by making .timeline-title a transparent grid pass-through. */
+  /* Header row: [number][title][chevron] — tap target for the accordion */
   .cdet-timeline .timeline-head{
-    display:grid !important;
-    grid-template-columns:1fr auto;
-    grid-template-areas:
-      "phase weeks"
-      "title title";
-    row-gap:14px; column-gap:10px;
-    align-items:start;
+    display:flex !important;
+    align-items:center;
+    gap:14px;
     width:100% !important;
     box-sizing:border-box;
     padding:20px;
-    cursor:default;
+    cursor:pointer;
+    background:transparent;
   }
   .cdet-timeline .timeline-item.open .timeline-head,
-  .cdet-timeline .timeline-card:hover .timeline-head{ padding-left:20px; }
-  .cdet-timeline .timeline-head svg{ display:none !important; }
+  .cdet-timeline .timeline-card:hover .timeline-head{ padding-left:20px; } /* undo desktop's hover indent */
 
+  /* Number badge — rounded square, blue gradient, "01" drawn via a
+     CSS counter so the JS's "Phase 1" text needs no change. */
   .cdet-timeline .timeline-phase{
-    grid-area:phase; justify-self:start;
-    font-size:16px; font-weight:700;
-    padding:8px 16px;
-    white-space:nowrap;
+    grid-area:unset; justify-self:unset;
+    flex:none; order:-1;
+    width:40px; height:40px;
+    display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg,#3B82F6,#0EA5E9) !important;
+    border-radius:11px;
+    padding:0; font-size:0;              /* hide the original "Phase N" text */
+  }
+  .cdet-timeline .timeline-phase::before{
+    content:counter(phaseNum, decimal-leading-zero);
+    font-family:var(--font-display);
+    font-size:15px; font-weight:800; color:#fff;
   }
 
-  .cdet-timeline .timeline-title{ display:contents; }
+  .cdet-timeline .timeline-title{
+    display:flex !important; flex-direction:column;
+    flex:1; min-width:0;
+  }
   .cdet-timeline .timeline-title strong{
-    grid-area:title;
     font-family:var(--font-heading);
-    font-size:22px; font-weight:700; line-height:1.3;
+    font-size:20px; font-weight:700; line-height:1.3;
+    color:#fff;
   }
-  .cdet-timeline .timeline-title em{
-    grid-area:weeks; justify-self:end; align-self:start;
-    font-style:normal; font-size:14px; font-weight:700;
-    color:var(--secondary); background:var(--grad-soft);
-    border:1px solid rgba(37,99,235,.15);
-    padding:6px 14px; border-radius:100px;
-    white-space:nowrap !important; flex-shrink:0;
-  }
+  .cdet-timeline .timeline-title em{ display:none; } /* weeks moves into the body — see below */
 
-  /* Body: always expanded — every topic visible, nothing collapsed */
+  /* Chevron — rotates 180° on expand */
+  .cdet-timeline .timeline-head svg{
+    display:block !important; flex:none;
+    width:18px; height:18px; color:#9CA3AF;
+    transition:transform .3s cubic-bezier(.4,0,.2,1);
+  }
+  .cdet-timeline .timeline-item.open .timeline-head svg{ transform:rotate(180deg); color:#60A5FA; }
+
+  /* Expanding body — fade + slide, 300ms */
   .cdet-timeline .timeline-body{
-    max-height:none !important; overflow:visible !important;
-    opacity:1 !important; transform:none !important;
+    transition:max-height .3s cubic-bezier(.4,0,.2,1), opacity .3s ease, transform .3s ease;
   }
   .cdet-timeline .timeline-topics{
     flex-wrap:nowrap; flex-direction:column;
-    align-items:stretch; gap:12px;
+    align-items:stretch; gap:12px;               /* topic line spacing */
     padding:0 20px 20px 20px;
   }
   .cdet-timeline .timeline-topics span{
     display:flex; align-items:flex-start; gap:10px;
     background:none !important; border:none !important; padding:0 !important;
     border-radius:0; box-shadow:none !important;
-    font-size:16px; font-weight:500; line-height:1.6;
-    color:var(--text-soft); text-align:left;
-    opacity:1 !important; transform:none !important; animation:none !important;
+    font-size:16px; font-weight:500; line-height:1.5;
+    color:#E5E7EB; text-align:left;
   }
   .cdet-timeline .timeline-topics span::before{
-    content:''; flex:none; margin-top:8px;
-    width:8px; height:8px; border-radius:50%;
-    background:var(--grad);
+    content:'✓'; flex:none; margin-top:1px;
+    width:20px; height:20px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg,#3B82F6,#0EA5E9);
+    color:#fff; font-size:11px; font-weight:800; line-height:1;
   }
   .cdet-timeline .timeline-topics span:hover{
-    transform:none !important; background:none !important; color:var(--text-soft) !important;
+    transform:none !important; background:none !important; color:#E5E7EB !important;
     box-shadow:none !important;
+  }
+  /* Weeks badge, redrawn after the topic list from the data-weeks
+     attribute set in course-details.js (e.g. "Weeks 1–3") */
+  .cdet-timeline .timeline-topics::after{
+    content:attr(data-weeks);
+    align-self:flex-start; margin-top:4px;
+    font-size:14px; font-weight:700; color:#fff;
+    background:linear-gradient(135deg,#3B82F6,#0EA5E9);
+    padding:6px 14px; border-radius:100px;
   }
 
   /* ============================================================
