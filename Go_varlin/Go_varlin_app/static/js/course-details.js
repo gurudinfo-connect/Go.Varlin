@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 9l6 6 6-6"/></svg>
           </button>
           <div class="timeline-body">
-            <div class="timeline-topics" data-weeks="${mod.weeks}">${mod.topics.map(t => `<span>${t}</span>`).join('')}</div>
+            <div class="timeline-topics">${mod.topics.map(t => `<span>${t}</span>`).join('')}</div>
           </div>
         </div>
       </div>
@@ -243,6 +243,61 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', updateTimeline, { passive:true });
     window.addEventListener('resize', updateTimeline);
     updateTimeline();
+  }
+
+  /* ---------- Mobile Syllabus Accordion (new — mobile only, does not touch the timeline above) ---------- */
+  const syllabusAccordion = document.getElementById('syllabusAccordion');
+  if (syllabusAccordion && data.modules){
+    syllabusAccordion.innerHTML = data.modules.map((mod, i) => `
+      <div class="acc-item">
+        <button class="acc-header" type="button" aria-expanded="false" aria-controls="accPanel${i}">
+          <span class="acc-number">${String(i + 1).padStart(2,'0')}</span>
+          <span class="acc-title">${mod.title}</span>
+          <svg class="acc-chevron" viewBox="0 0 24 24" width="20" height="20"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="acc-panel" id="accPanel${i}">
+          <div class="acc-panel-inner">
+            <ul class="acc-topics">
+              ${mod.topics.map(t => `
+                <li>
+                  <svg class="acc-check" viewBox="0 0 24 24" width="14" height="14"><path d="M20 6L9 17l-5-5"/></svg>
+                  <span>${t}</span>
+                </li>
+              `).join('')}
+            </ul>
+            <span class="acc-weeks">${mod.weeks}</span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    const accItems = syllabusAccordion.querySelectorAll('.acc-item');
+    accItems.forEach(item => {
+      const header = item.querySelector('.acc-header');
+      const panel = item.querySelector('.acc-panel');
+      header.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        accItems.forEach(other => {
+          if (other !== item && other.classList.contains('open')){
+            other.classList.remove('open');
+            other.querySelector('.acc-header').setAttribute('aria-expanded', 'false');
+            other.querySelector('.acc-panel').style.maxHeight = null;
+          }
+        });
+        item.classList.toggle('open', !isOpen);
+        header.setAttribute('aria-expanded', String(!isOpen));
+        panel.style.maxHeight = !isOpen ? panel.scrollHeight + 'px' : null;
+      });
+    });
+
+    /* Keep the open panel's max-height correct across resizes/orientation changes */
+    window.addEventListener('resize', () => {
+      const openItem = syllabusAccordion.querySelector('.acc-item.open');
+      if (openItem){
+        const panel = openItem.querySelector('.acc-panel');
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+      }
+    });
   }
 
   /* ---------- Tools covered ---------- */
