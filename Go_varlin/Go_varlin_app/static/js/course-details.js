@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <ul class="acc-topics">
               ${mod.topics.map(t => `
                 <li>
-                  <svg class="acc-check" viewBox="0 0 24 24" width="14" height="14"><path d="M20 6L9 17l-5-5"/></svg>
+                  <svg class="acc-check" viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.2l2.4 2.4 4.6-5"/></svg>
                   <span>${t}</span>
                 </li>
               `).join('')}
