@@ -1,6 +1,0 @@
-/* ============================================================
-   GO.VARLIN — PLACEMENT HUB
-   ============================================================ */
-
-.job-card{ display:flex; flex-direction:column; }
-.job-card:hover{ border-color:var(--accent); }
